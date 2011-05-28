@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for taxon in taxa %}
-    <h1>{{ taxon.name }}</h1>
+    <h2>{{ taxon.name }}</h2>
     <ul>
         {% for article in taxon.articles.all %}
         <li>
