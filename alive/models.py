@@ -23,17 +23,26 @@ class Taxon(models.Model):
     articles = models.ManyToManyField('Article', null=True, blank=True, 
             verbose_name=_('articles'), related_name='taxa')
 
+    def __unicode__(self):
+        return self.rank, self.name
+
 
 class Author(models.Model):
     '''Represents an author.'''
     forename = models.CharField(_('forename'), max_length=256)
     surname = models.CharField(_('surname'), max_length=256)
 
+    def __unicode__(self):
+        return self.forename, self.surname
+
 
 class Editor(models.Model):
     '''Represents an editor.'''
     forename = models.CharField(_('forename'), max_length=256)
     surname = models.CharField(_('surname'), max_length=256)
+
+    def __unicode__(self):
+        return self.forename, self.surname
 
 
 class Category(models.Model):
@@ -44,6 +53,9 @@ class Category(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, 
             related_name='subcategories', verbose_name=_('parent'))
     issub = models.BooleanField(_('is subcategory'), default=False)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Group(models.Model):
@@ -59,40 +71,64 @@ class Keyword(models.Model):
     '''Represents a Mendeley keyword.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Tag(models.Model):
     '''Represents a Mendeley tag.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class ArticleType(models.Model):
     '''Type of article (eg, journal Article, PhD Thesis, etc).'''
     name = models.CharField(_('name'), max_length=256, unique=True)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Journal(models.Model):
     '''Scientific journal or other publication outlet.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Publisher(models.Model):
     '''Represents the publisher.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Country(models.Model):
     '''Represents a country.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Discipline(models.Model):
     '''Represents a discipline.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Status(models.Model):
     '''Represents a status.'''
     name = models.CharField(_('name'), max_length=256, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class StatsCountry(models.Model):
@@ -100,17 +136,26 @@ class StatsCountry(models.Model):
     name = models.ForeignKey(Country, verbose_name=_('country'))
     value = models.PositiveIntegerField(_('value'), default=0)
 
+    def __unicode__(self):
+        return self.name, self.value
+
 
 class StatsDiscipline(models.Model):
     '''Represents the stats of disciplines.'''
     name = models.ForeignKey(Discipline, verbose_name=_('discipline'))
     value = models.PositiveIntegerField(_('value'), default=0)
 
+    def __unicode__(self):
+        return self.name, self.value
+
 
 class StatsStatus(models.Model):
     '''Represents the stats of status.'''
     name = models.ForeignKey(Status, verbose_name=_('status'))
     value = models.PositiveIntegerField(_('value'), default=0)
+
+    def __unicode__(self):
+        return self.name, self.value
 
 
 class Stats(models.Model):
@@ -122,6 +167,9 @@ class Stats(models.Model):
             blank=True, verbose_name=_('disciplines'))
     statuses = models.ManyToManyField(StatsStatus, null=True, blank=True, 
             verbose_name=_('status'))
+
+    def __unicode__(self):
+        return self.readers + ' readers id=' + self.id
 
 
 class Article(models.Model):
@@ -162,9 +210,16 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, null=True, blank=True, 
             verbose_name=_('tags'))
 
+    def __unicode__(self):
+        return self.year, self.title
+
 
 class Identifier(models.Model):
     '''Identifiers for an article.'''
     article = models.ForeignKey(Article, verbose_name=_('article'))
     type = models.CharField(_('type'), max_length=256)
     value = models.CharField(_('value'), max_length=256)
+
+    def __unicode__(self):
+        return self.type + ': ' + self.value
+
