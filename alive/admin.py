@@ -1,0 +1,22 @@
+from alive.models import *
+from django.contrib import admin
+
+admin.site.register(Query)
+admin.site.register(Taxon)
+admin.site.register(Author)
+admin.site.register(Editor)
+admin.site.register(Category)
+admin.site.register(Group)
+admin.site.register(Keyword)
+admin.site.register(ArticleType)
+admin.site.register(Journal)
+admin.site.register(Publisher)
+admin.site.register(Country)
+admin.site.register(Discipline)
+admin.site.register(Status)
+admin.site.register(StatsCountry)
+admin.site.register(StatsDiscipline)
+admin.site.register(StatsStatus)
+admin.site.register(Stats)
+admin.site.register(Article)
+admin.site.register(Identifier)

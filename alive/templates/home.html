@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for taxon in taxa %}
+    <h1>{{ taxon.name }}</h1>
+    <ul>
+        {% for article in taxon.articles.all %}
+        <li>
+        {{ article.year }} <strong>{{ article.title }}</strong> {{ article.stats.readers }} readers.
+        </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
