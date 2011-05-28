@@ -179,6 +179,8 @@ class Article(models.Model):
     title = models.CharField(_('title'), max_length=256)
     abstract = models.TextField(_('abstract'), blank=True)
     year = models.PositiveIntegerField(_('year'), default=0)
+    rank = models.PositiveIntegerField(_('rank'), default=0)
+    chapter = models.CharField(_('chapter'), max_length=10)
     volume = models.CharField(_('volume'), max_length=10)
     issue = models.CharField(_('issue'), max_length=10)
     pages = models.CharField(_('pages'), max_length=50)
