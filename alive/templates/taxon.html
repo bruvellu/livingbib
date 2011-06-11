@@ -3,13 +3,15 @@
 {% block content %}
 
 <h2>{{ taxon.name }}</h2>
-<ul>
+<strong>Last updated:</strong> {{ last_query.timestamp }}<br>
+<strong>Results:</strong> {{ last_query.total_results }}<br>
+<div class="paperlist">
     {% for article in taxon.articles.all %}
-    <li>
-    {{ article.year }} <strong>{{ article.title }}</strong> {{ article.stats.readers }} readers.
-    </li>
+    <div class="citation">
+        {% include 'citation.html' %}
+    </div>
     {% endfor %}
-</ul>
+</div>
 
 {% endblock %}
 

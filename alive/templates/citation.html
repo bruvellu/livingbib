@@ -1,0 +1,41 @@
+<div class="grid_1">
+    {{ article.year }}
+</div>
+<div class="grid_6">
+    <strong>{{ article.title }}</strong><br>
+    {% for author in article.authors.all %}{{ author.forename }} {{ author.lastname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+
+    {% if article.type.name == 'Journal Article' %}
+        {{ article.publication_outlet }}, {{ article.volume }} {{ article.issue }}:{{ article.pages }}<br><br>
+    {% else %}
+        {% if article.type.name == 'Book Section' %}
+            {{ article.chapter }}, {{ article.publisher }}, {{ article.pages }}<br><br>
+        {% else %}
+            {{ article.publisher }}<br><br>
+        {% endif %}
+    {% endif %}
+
+    {% if article.identifier_set.all %}
+    <strong>Identifiers:</strong> {% for id in article.identifier_set.all %}{{ id.type }}:{{ id.value }}{% if not forloop.last %} | {% endif %}{% endfor %}<br>
+    {% endif %}
+
+    {% if article.categories.all %}
+    <strong>Categories:</strong> {% for cat in article.categories.all %}{{ cat.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+    {% endif %}
+
+    {% if article.keywords.all %}
+    <strong>Keywords:</strong> {% for key in article.keywords.all %}{{ key.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+    {% endif %}
+
+    {% if article.tags.all %}
+    <strong>Tags:</strong> {% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+    {% endif %}
+</div>
+<div class="grid_5">
+    {{ article.type }}<br>
+    {{ article.stats.readers }} readers<br>
+    @<a href="{{ article.mendeley_url }}">mendeley</a><br>
+    rank {{ article.rank }}<br>
+    {% if article.oa_journal %}OA!{% endif %}
+</div>
+<div class="clear"></div>

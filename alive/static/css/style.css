@@ -169,7 +169,13 @@ h3 { font-size:1.16667em; }
 header { margin: 1em 0; }
 footer { margin: 1em 0; }
 
+div.paperlist {
+    margin:0;
+    padding:0;
+    list-style-type:none;
+}
 
+div.citation { padding:1em 0; }
 
 
 

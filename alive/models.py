@@ -9,6 +9,7 @@ class Query(models.Model):
     total_results = models.PositiveIntegerField(_('number of results'), default=0)
     timestamp = models.DateTimeField(_('datetime of query'), auto_now_add=True)
     taxon = models.ForeignKey('Taxon', verbose_name=_('taxon'))
+    #TODO Have a delta field to show the variation in the number of results.
 
 
 class Taxon(models.Model):

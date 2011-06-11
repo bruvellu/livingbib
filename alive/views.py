@@ -18,8 +18,9 @@ def home_page(request):
 def taxon_page(request, slug):
     '''Taxon page.'''
     taxon = Taxon.objects.select_related().get(slug=slug)
+    last_query = Query.objects.filter(taxon=taxon).order_by('-timestamp')[0]
     variables = RequestContext(request, {
         'taxon': taxon,
+        'last_query': last_query,
         })
     return render_to_response('taxon.html', variables)
-    #TODO Create the template itself.
