@@ -2,16 +2,13 @@
 
 {% block content %}
 
-{% for taxon in taxa %}
-    <h2>{{ taxon.name }}</h2>
-    <ul>
-        {% for article in taxon.articles.all %}
-        <li>
-        {{ article.year }} <strong>{{ article.title }}</strong> {{ article.stats.readers }} readers.
-        </li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for taxon in taxa %}
+    <li>
+        <a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a>
+    </li>
 {% endfor %}
+</ul>
 
 {% endblock %}
 

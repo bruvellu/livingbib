@@ -14,3 +14,12 @@ def home_page(request):
         'taxa': taxa,
         })
     return render_to_response('home.html', variables)
+
+def taxon_page(request, slug):
+    '''Taxon page.'''
+    taxon = Taxon.objects.select_related().get(slug=slug)
+    variables = RequestContext(request, {
+        'taxon': taxon,
+        })
+    return render_to_response('taxon.html', variables)
+    #TODO Create the template itself.

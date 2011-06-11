@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from alive.signals import *
+
 
 class Query(models.Model):
     '''Search term (=taxon name) sent to Mendeley API.'''
@@ -24,7 +26,11 @@ class Taxon(models.Model):
             verbose_name=_('articles'), related_name='taxa')
 
     def __unicode__(self):
-        return self.rank, self.name
+        return '%s (%s)' % (self.name, self.rank)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('taxon_url', [self.slug])
 
 
 class Author(models.Model):
@@ -225,3 +231,6 @@ class Identifier(models.Model):
     def __unicode__(self):
         return self.type + ': ' + self.value
 
+
+# Signals calls.
+signals.pre_save.connect(slug_pre_save, sender=Taxon)
