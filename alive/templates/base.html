@@ -44,9 +44,12 @@
     <div id="main" role="main">
         {% block content %}{% endblock %}
         {% block sidebar %}{% endblock %}
+        <p class="quiet">
+            *references extracted from Mendeley database only, for now.
+        </p>
     </div>
     <footer class="quiet">
-        {% now "Y" %} Bruno C. Vellutini
+    {% now "Y" %} Bruno C. Vellutini | Code at <a href="http://github.com/nelas/livingbib">github</a>
     </footer>
   </div> <!--! end of #container -->
 

@@ -15,7 +15,9 @@ Here is a quicklist with some features:
 - Proper taxonomic tree pulled from ITIS.
 - Search with smooth taxon name autocomplete.
 - Show number of results, top authors and top journals for each taxon.
-- Display graph with number of publications per year for taxon.
+- Display graph with number of publications per year for taxon (similar to
+  [this](http://organismnames.com/metrics.htm?page=graphs)).
+- Standardize taxon information via uBio tools?
 - Create links from identifiers.
 - Provide links to external taxonomic/biological databases (eol, wikispecies, etc).
 - Pull and display image and taxon description (from wikispecies/eol?).
