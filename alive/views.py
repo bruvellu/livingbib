@@ -2,6 +2,7 @@ from alive.models import *
 from alive.forms import SortForm
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #from django.contrib.auth.decorators import login_required
@@ -17,9 +18,16 @@ def home_page(request):
 
 def taxon_page(request, slug):
     '''Taxon page.'''
-    sorting = 'rank'
-    sortform = SortForm(initial={'type': request.session['sorting']})
-    reverse = False
+    try:
+        sorting = request.session['sorting']
+    except:
+        sorting = 'rank'
+    try:
+        reverse = request.session['reverse']
+    except:
+        reverse = False
+    sortform = SortForm(initial={'type': sorting, 'reverse': reverse})
+    ajax = request.GET.has_key('ajax')
     if request.method == 'POST':
         sortform = SortForm(request.POST)
         if sortform.is_valid():
@@ -27,8 +35,10 @@ def taxon_page(request, slug):
             request.session['sorting'] = sortform.data['type']
             try:
                 reverse = sortform.data['reverse']
+                request.session['reverse'] = True
             except:
                 reverse = False
+                request.session['reverse'] = False
     taxon = Taxon.objects.select_related().get(slug=slug)
     if reverse:
         articles = taxon.articles.order_by('-' + sorting)

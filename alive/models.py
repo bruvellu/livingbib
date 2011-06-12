@@ -40,7 +40,7 @@ class Author(models.Model):
     surname = models.CharField(_('surname'), max_length=256)
 
     def __unicode__(self):
-        return self.forename, self.surname
+        return '%s %s' % (self.forename, self.surname)
 
 
 class Editor(models.Model):
@@ -49,7 +49,7 @@ class Editor(models.Model):
     surname = models.CharField(_('surname'), max_length=256)
 
     def __unicode__(self):
-        return self.forename, self.surname
+        return '%s %s' % (self.forename, self.surname)
 
 
 class Category(models.Model):
@@ -144,7 +144,7 @@ class StatsCountry(models.Model):
     value = models.PositiveIntegerField(_('value'), default=0)
 
     def __unicode__(self):
-        return self.name, self.value
+        return '%s %s' % (self.name, self.value)
 
 
 class StatsDiscipline(models.Model):
@@ -153,7 +153,7 @@ class StatsDiscipline(models.Model):
     value = models.PositiveIntegerField(_('value'), default=0)
 
     def __unicode__(self):
-        return self.name, self.value
+        return '%s %s' % (self.name, self.value)
 
 
 class StatsStatus(models.Model):
@@ -162,7 +162,7 @@ class StatsStatus(models.Model):
     value = models.PositiveIntegerField(_('value'), default=0)
 
     def __unicode__(self):
-        return self.name, self.value
+        return '%s %s' % (self.name, self.value)
 
 
 class Stats(models.Model):
@@ -220,7 +220,7 @@ class Article(models.Model):
             verbose_name=_('tags'))
 
     def __unicode__(self):
-        return self.year, self.title
+        return '%s %s' % (self.year, self.title)
 
 
 class Identifier(models.Model):
