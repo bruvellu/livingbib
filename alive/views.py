@@ -1,5 +1,5 @@
 from alive.models import *
-#from alive.forms import *
+from alive.forms import SortForm
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
@@ -17,10 +17,28 @@ def home_page(request):
 
 def taxon_page(request, slug):
     '''Taxon page.'''
+    sorting = 'rank'
+    sortform = SortForm(initial={'type': request.session['sorting']})
+    reverse = False
+    if request.method == 'POST':
+        sortform = SortForm(request.POST)
+        if sortform.is_valid():
+            sorting = sortform.data['type']
+            request.session['sorting'] = sortform.data['type']
+            try:
+                reverse = sortform.data['reverse']
+            except:
+                reverse = False
     taxon = Taxon.objects.select_related().get(slug=slug)
+    if reverse:
+        articles = taxon.articles.order_by('-' + sorting)
+    else:
+        articles = taxon.articles.order_by(sorting)
     last_query = Query.objects.filter(taxon=taxon).order_by('-timestamp')[0]
     variables = RequestContext(request, {
         'taxon': taxon,
         'last_query': last_query,
+        'articles': articles,
+        'sortform': sortform,
         })
     return render_to_response('taxon.html', variables)

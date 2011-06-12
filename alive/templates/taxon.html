@@ -6,7 +6,13 @@
 <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
 <strong>Results:</strong> {{ last_query.total_results }}<br>
 <div class="paperlist">
-    {% for article in taxon.articles.all %}
+
+    <form action="." method="post">
+        {{ sortform.as_p }}
+        {% csrf_token %}
+    </form>
+
+    {% for article in articles %}
     <div class="citation">
         {% include 'citation.html' %}
     </div>
