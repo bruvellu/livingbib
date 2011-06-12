@@ -2,13 +2,15 @@
 
 {% block content %}
 
-<ul>
-    {% for taxon in taxa %}
-    <li>
-        <a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a>
-    </li>
+<div class="grid_1 align-right"><strong>Results</strong></div>
+<div class="grid_11"><strong>Taxon</strong></div>
+<div class="clear"></div>
+
+{% for taxon in taxa %}
+<div class="grid_1 align-right">{{ taxon.total_results }}</div>
+<div class="grid_11"><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a></div>
+<div class="clear"></div>
 {% endfor %}
-</ul>
 
 {% endblock %}
 

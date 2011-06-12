@@ -1,7 +1,7 @@
 <div class="grid_1">
     {{ article.year }}
 </div>
-<div class="grid_6">
+<div class="grid_9">
     <strong>{{ article.title }}</strong><br>
     {% for author in article.authors.all %}{{ author.forename }} {{ author.surname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
 
@@ -31,7 +31,7 @@
     <strong>Tags:</strong> {% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
     {% endif %}
 </div>
-<div class="grid_5">
+<div class="grid_2">
     {{ article.type }}<br>
     {{ article.stats.readers }} readers<br>
     @<a href="{{ article.mendeley_url }}">mendeley</a><br>

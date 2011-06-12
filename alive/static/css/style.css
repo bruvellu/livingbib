@@ -169,6 +169,8 @@ h3 { font-size:1.16667em; }
 header { margin: 1em 0; }
 footer { margin: 1em 0; }
 
+header a { color:#444444; text-decoration:none; }
+
 div.paperlist {
     margin:0;
     padding:0;
@@ -177,6 +179,9 @@ div.paperlist {
 
 div.citation { padding:1em 0; }
 
+.align-right { text-align:right; }
+.align-left { text-align:left; }
+.align-center { text-align:center; }
 
 
 
