@@ -86,9 +86,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'mle_v%^0(g=e&!w64&0)5kq2%5+_ch#s9w=z!_&ee)o*3k)#x-'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -160,3 +157,6 @@ LOGGING = {
         },
     }
 }
+
+# Import local settings.
+from secret import *
