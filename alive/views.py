@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 def home_page(request):
     '''Home page.'''
-    taxa = Taxon.objects.select_related().order_by('queries__total_results')
+    taxa = Taxon.objects.select_related().order_by('-total_results')
     variables = RequestContext(request, {
         'taxa': taxa,
         })

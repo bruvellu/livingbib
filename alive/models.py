@@ -9,7 +9,7 @@ class Query(models.Model):
     total_results = models.PositiveIntegerField(_('number of results'), default=0)
     timestamp = models.DateTimeField(_('datetime of query'), auto_now_add=True)
     taxon = models.ForeignKey('Taxon', verbose_name=_('taxon'))
-    #TODO Have a delta field to show the variation in the number of results.
+    delta = models.IntegerField(null=True, blank=True)
 
 
 class Taxon(models.Model):
@@ -19,7 +19,8 @@ class Taxon(models.Model):
     slug = models.SlugField(_('slug'), max_length=256, blank=True)
     tsn = models.PositiveIntegerField(null=True, blank=True)
     aphia = models.PositiveIntegerField(null=True, blank=True)
-    #TODO Create a results to display and order by this value.
+    total_results = models.PositiveIntegerField(null=True, blank=True)
+    delta = models.IntegerField(null=True, blank=True)
     parent = models.ForeignKey('self', blank=True, null=True, 
             related_name='children', verbose_name=_('parent'))
     queries = models.ManyToManyField(Query, null=True, blank=True, 
@@ -236,3 +237,5 @@ class Identifier(models.Model):
 
 # Signals calls.
 signals.pre_save.connect(slug_pre_save, sender=Taxon)
+signals.pre_save.connect(update_delta, sender=Query)
+signals.post_save.connect(update_results, sender=Query)
