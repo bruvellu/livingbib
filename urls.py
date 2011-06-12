@@ -5,6 +5,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^', include('alive.urls')),
+    url(r'^', include('livingbib.alive.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

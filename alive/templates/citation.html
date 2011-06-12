@@ -3,10 +3,10 @@
 </div>
 <div class="grid_6">
     <strong>{{ article.title }}</strong><br>
-    {% for author in article.authors.all %}{{ author.forename }} {{ author.lastname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+    {% for author in article.authors.all %}{{ author.forename }} {{ author.surname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
 
     {% if article.type.name == 'Journal Article' %}
-        {{ article.publication_outlet }}, {{ article.volume }} {{ article.issue }}:{{ article.pages }}<br><br>
+    <em>{{ article.publication_outlet }}</em>, {{ article.volume }} {{ article.issue }}:{{ article.pages }}<br><br>
     {% else %}
         {% if article.type.name == 'Book Section' %}
             {{ article.chapter }}, {{ article.publisher }}, {{ article.pages }}<br><br>

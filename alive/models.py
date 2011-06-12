@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from alive.signals import *
+from signals import *
 
 
 class Query(models.Model):
@@ -19,6 +19,7 @@ class Taxon(models.Model):
     slug = models.SlugField(_('slug'), max_length=256, blank=True)
     tsn = models.PositiveIntegerField(null=True, blank=True)
     aphia = models.PositiveIntegerField(null=True, blank=True)
+    #TODO Create a results to display and order by this value.
     parent = models.ForeignKey('self', blank=True, null=True, 
             related_name='children', verbose_name=_('parent'))
     queries = models.ManyToManyField(Query, null=True, blank=True, 

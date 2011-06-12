@@ -1,5 +1,5 @@
-from alive.models import *
-from alive.forms import SortForm
+from models import *
+from forms import SortForm
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 def home_page(request):
     '''Home page.'''
-    taxa = Taxon.objects.select_related()
+    taxa = Taxon.objects.select_related().order_by('queries__total_results')
     variables = RequestContext(request, {
         'taxa': taxa,
         })
