@@ -3,7 +3,7 @@
 This app queries Mendeley database for a specific taxon name and displays a
 list of references. The idea is to aggregate references about a specific
 species and extract some fun from it. For example, the most popular
-organisms, trending taxa, top authors by taxon, etc.
+organisms, trending taxa, top authors by taxon, etc. There are many hiccups, of course, but I decided to give it a try.
 
 For now I just layed out the basic models and templates and got 50 references
 from some model organisms.
