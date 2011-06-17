@@ -1,9 +1,10 @@
 from models import *
 from forms import SortForm
-from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #from django.contrib.auth.decorators import login_required
 #from django.core.cache import cache
@@ -45,10 +46,13 @@ def taxon_page(request, slug):
     else:
         articles = taxon.articles.order_by(sorting)
     last_query = Query.objects.filter(taxon=taxon).order_by('-timestamp')[0]
+    top_authors = articles.values('authors__forename', 'authors__surname').annotate(
+            Count('authors')).order_by('-authors__count')[:10]
     variables = RequestContext(request, {
         'taxon': taxon,
         'last_query': last_query,
         'articles': articles,
         'sortform': sortform,
+        'top_authors': top_authors,
         })
     return render_to_response('taxon.html', variables)

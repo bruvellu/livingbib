@@ -179,6 +179,11 @@ div.paperlist {
 
 div.citation { padding:1em 0; }
 div.taxa { margin:0 0 1em 0; }
+div.rankings { margin:1em 0; }
+div.paperlist { margin:1em 0; }
+
+div.rankings table { text-align:left; }
+div.rankings table td { padding:2px 10px 0 0; }
 
 .align-right { text-align:right; }
 .align-left { text-align:left; }

@@ -5,7 +5,25 @@
 <h2>{{ taxon.name }}</h2>
 <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
 <strong>Results:</strong> {{ last_query.total_results }}<br>
+
+<div class="rankings">
+    <h3>Active authors</h3>
+    <table>
+        <tr>
+            <th>Author</th>
+            <th>Publications</th>
+        </tr>
+        {% for author in top_authors %}
+        <tr>
+            <td>{{ author.authors__surname }}, {{ author.authors__forename }}</td>
+            <td>{{ author.authors__count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 <div class="paperlist">
+    <h3>Articles</h3>
 
     <form action="." method="post">
         {{ sortform.as_p }}
