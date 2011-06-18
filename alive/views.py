@@ -1,10 +1,11 @@
 from models import *
-from forms import SortForm
+from forms import *
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from ubio import uBio
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #from django.contrib.auth.decorators import login_required
 #from django.core.cache import cache
@@ -16,6 +17,27 @@ def home_page(request):
         'taxa': taxa,
         })
     return render_to_response('home.html', variables)
+
+def search_page(request):
+    '''Search page.'''
+    form = SearchForm()
+    query = ''
+    scientific, vernacular = [], []
+    show = False
+    if 'query' in request.GET:
+        query = request.GET['query'].strip()
+        if query:
+            form = SearchForm({'query': query})
+            show = True
+            ubio = uBio()
+            taxa = ubio.search_name(query)
+    variables = RequestContext(request, {
+        'form': form,
+        'query': query,
+        'show': show,
+        'taxa': taxa,
+        })
+    return render_to_response('search.html', variables)
 
 def taxon_page(request, slug):
     '''Taxon page.'''
