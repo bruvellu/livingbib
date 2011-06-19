@@ -21,6 +21,7 @@ def home_page(request):
 def search_page(request):
     '''Search page.'''
     form = SearchForm()
+    taxa = []
     query = ''
     scientific, vernacular = [], []
     show = False
