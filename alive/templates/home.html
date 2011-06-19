@@ -2,15 +2,28 @@
 
 {% block content %}
 
-<div class="taxa">
+
+<div id="search-box">
+    <form id="search-form" method="get" action="/search/">
+        {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span>
+    </form>
+</div>
+
+<div class="grid_6" id="site-description">
+    <h2>What it is</h2>
+    Please refer to <a href="https://github.com/nelas/livingbib#readme">github readme</a> until a proper description is written.
+</div>
+
+<div id="home-taxa" class="grid_6">
+    <h2>Popular taxa</h2>
 
     <div class="grid_1 align-right"><strong>Results</strong></div>
-    <div class="grid_11"><strong>Taxon</strong></div>
+    <div class="grid_4"><strong>Taxon</strong></div>
     <div class="clear"></div>
 
     {% for taxon in taxa %}
     <div class="grid_1 align-right">{{ taxon.total_results }}</div>
-    <div class="grid_11"><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a></div>
+    <div class="grid_4"><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a></div>
     <div class="clear"></div>
     {% endfor %}
 

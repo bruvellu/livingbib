@@ -182,9 +182,10 @@ div.paperlist {
 }
 
 div.citation { padding:1em 0; }
-div.taxa { margin:0 0 1em 0; }
+div#home-taxa { margin:0 0 1em 0; }
 div.rankings { margin:1em 0; }
 div.paperlist { margin:1em 0; }
+div#search-box { margin:0 0 1em 0; }
 
 div.search-taxon { padding:1em; }
 div.search-taxon:hover { background:#fafafa; color:#607890; }

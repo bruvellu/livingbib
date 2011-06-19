@@ -6,6 +6,7 @@
 <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
 <strong>Results:</strong> {{ last_query.total_results }}<br>
 
+{% if top_authors %}
 <div class="rankings">
     <h3>Active authors</h3>
     <table>
@@ -21,20 +22,33 @@
         {% endfor %}
     </table>
 </div>
+{% endif %}
 
 <div class="paperlist">
     <h3>Articles</h3>
 
-    <form action="." method="post">
-        {{ sortform.as_p }}
-        {% csrf_token %}
-    </form>
+    {% if articles %}
 
-    {% for article in articles %}
-    <div class="citation">
-        {% include 'citation.html' %}
-    </div>
-    {% endfor %}
+        <form action="." method="post">
+            {{ sortform.as_p }}
+            {% csrf_token %}
+        </form>
+
+        {% for article in articles %}
+        <div class="citation">
+            {% include 'citation.html' %}
+        </div>
+        {% endfor %}
+
+    {% else %}
+
+        {% if taxon.total_results %}
+        Sorry, we could not find any articles about <strong>{{ taxon.name }}</strong>.
+        {% else %}
+        Sorry, we are still fetching articles for <strong>{{ taxon.name }}</strong>. Please come back soon.
+        {% endif %}
+
+    {% endif %}
 </div>
 
 {% endblock %}
