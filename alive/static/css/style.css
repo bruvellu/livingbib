@@ -149,9 +149,10 @@ body, select, input, textarea {
 
 /* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-h1 { font-size:3em; }
-h2 { font-size:1.33333em; }
-h3 { font-size:1.16667em; }
+h1 { font-size:3em; margin:0 0 1em 0; }
+h2 { font-size:2em; margin:0 0 0.5em 0; }
+h3 { font-size:1.8em; margin:0 0 0.3em 0; }
+h4 { font-size:1.2em; margin:0 0 0.3em 0; }
 
 
 /* These selection declarations have to be separate
@@ -169,6 +170,9 @@ h3 { font-size:1.16667em; }
 header { margin: 1em 0; }
 footer { margin: 1em 0; }
 
+header h1 { margin: 0; }
+header span { font-size:1.5em; }
+
 header a { color:#444444; text-decoration:none; }
 
 div.paperlist {
@@ -181,6 +185,15 @@ div.citation { padding:1em 0; }
 div.taxa { margin:0 0 1em 0; }
 div.rankings { margin:1em 0; }
 div.paperlist { margin:1em 0; }
+
+div.search-taxon { padding:1em; }
+div.search-taxon:hover { background:#fafafa; color:#607890; }
+#search-results a, #search-results a:active, #search-results a:visited {
+    color:#444444;
+    text-decoration:none;
+}
+
+div#search-results { margin:1em 0; }
 
 div.rankings table { text-align:left; }
 div.rankings table td { padding:2px 10px 0 0; }
