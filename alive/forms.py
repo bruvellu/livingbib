@@ -21,6 +21,6 @@ class SortForm(forms.Form):
 class SearchForm(forms.Form):
     query = forms.CharField(
             label=_('Search for'),
-            widget=forms.TextInput(attrs={'size': 32}),
+            widget=forms.TextInput(attrs={'size': 44}),
             help_text=_('try a scientific or common name'),
             )

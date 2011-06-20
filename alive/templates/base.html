@@ -33,25 +33,25 @@
 </head>
 
 <body>
+    <div id="container" class="container_12">
+        <header class="grid_12">
+        <h1><a href="/">Living Bibliography</a></h1>
+        <span class="quiet">references from your favorite taxon</span>
+        </header>
 
-  <div id="container" class="container_12">
-    <header>
-    <h1><a href="/">Living Bibliography</a></h1>
-    <span class="quiet">references from your favorite taxon</span>
-    </header>
-    <div id="main-menu">
-    </div>
-    <div id="main" role="main">
+        <div id="main-menu" class="grid_12"></div>
+
         {% block content %}{% endblock %}
         {% block sidebar %}{% endblock %}
-        <p class="quiet">
+
+        <div id="main-footnote" class="quiet grid_12">
             *references extracted from Mendeley database only, for now.
-        </p>
-    </div>
-    <footer class="quiet">
-    {% now "Y" %} Bruno Vellutini | Code at <a href="http://github.com/nelas/livingbib">GitHub</a>
-    </footer>
-  </div> <!--! end of #container -->
+        </div>
+
+        <footer class="quiet grid_12">
+        {% now "Y" %} Bruno Vellutini | Code at <a href="http://github.com/nelas/livingbib">GitHub</a>
+        </footer>
+    </div> <!-- end of #container -->
 
 
   <!-- JavaScript at the bottom for fast page loading -->
