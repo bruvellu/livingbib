@@ -2,18 +2,18 @@
 
 {% block content %}
 
-<div id="search-box" class="grid_12">
+<div id="search-box" class="grid_12 alpha omega">
     <form id="search-form" method="get" action="/search/">
         {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span>
     </form>
 </div>
 
-<div id="site-description" class="grid_6">
+<div id="site-description" class="grid_6 alpha">
     <h2>What it is</h2>
     Please refer to <a href="https://github.com/nelas/livingbib#readme">github readme</a> until a proper description is written.
 </div>
 
-<div id="home-taxa" class="grid_6">
+<div id="home-taxa" class="grid_6 omega">
     <h2>Popular species</h2>
 
     <div class="header-row">

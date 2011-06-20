@@ -151,7 +151,7 @@ body, select, input, textarea {
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 h1 { font-size:3em; margin:0 0 1em 0; }
 h2 { font-size:2em; margin:0 0 0.5em 0; }
-h3 { font-size:1.8em; margin:0 0 0.3em 0; }
+h3 { font-size:1.6em; margin:0 0 0.3em 0; }
 h4 { font-size:1.2em; margin:0 0 0.3em 0; }
 
 
@@ -168,8 +168,8 @@ h4 { font-size:1.2em; margin:0 0 0.3em 0; }
  */
 
 header, footer, div#search-box,
-div#site-description, div#home-taxa { margin-top:1em; margin-bottom:1em; }
-
+div#site-description, div#home-taxa,
+div#taxon-info, div#reference-list, div#side-info, div.citation { margin-top:1em; margin-bottom:1em; }
 header h1 { margin: 0; }
 header a { color:#444444; text-decoration:none; }
 header span { font-size:1.5em; }
@@ -212,10 +212,11 @@ div.search-taxon:hover { background:#fafafa; color:#607890; }
 .float-center { float:center; }
 .quiet { color:#999999; }
 
+th, td { padding:5px; }
 
+#top-authors th, #top-authors td { text-align:center; }
 
-
-
+div.citation { padding-bottom:1em; padding-top:1em; border-top:1px #dddddd solid; }
 
 
 

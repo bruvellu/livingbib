@@ -2,40 +2,24 @@
 
 {% block content %}
 
-<h2>{{ taxon.name }}</h2>
-<strong>Last updated:</strong> {{ last_query.timestamp }}<br>
-<strong>Results:</strong> {{ last_query.total_results }}<br>
-
-{% if top_authors %}
-<div class="rankings">
-    <h3>Active authors</h3>
-    <table>
-        <tr>
-            <th>Author</th>
-            <th>Publications</th>
-        </tr>
-        {% for author in top_authors %}
-        <tr>
-            <td>{{ author.authors__surname }}, {{ author.authors__forename }}</td>
-            <td>{{ author.authors__count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="grid_12 omega alpha" id="taxon-info">
+    <h2>{{ taxon.name }}</h2>
+    <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
+    <strong>Results:</strong> {{ last_query.total_results }}<br>
 </div>
-{% endif %}
 
-<div class="paperlist">
-    <h3>Articles</h3>
+<div class="grid_9 alpha" id="reference-list">
+    <form action="." method="post" class="float-right">
+        {{ sortform.as_p }}
+        {% csrf_token %}
+    </form>
+
+    <h3>References</h3>
 
     {% if articles %}
 
-        <form action="." method="post">
-            {{ sortform.as_p }}
-            {% csrf_token %}
-        </form>
-
         {% for article in articles %}
-        <div class="citation">
+        <div class="citation grid_9 alpha omega">
             {% include 'citation.html' %}
         </div>
         {% endfor %}
@@ -51,7 +35,23 @@
     {% endif %}
 </div>
 
-{% endblock %}
+<div class="grid_3 omega" id="side-info">
+    <div id="top-authors">
+        <h3>Active authors</h3>
+        <table>
+            <tr class="header-row">
+                <th>Author</th>
+                <th>Publications</th>
+            </tr>
 
-{% block sidebar %}
+            {% for author in top_authors %}
+            <tr class="{% cycle 'dark-row' 'light-row' %}">
+                <td>{{ author.authors__surname }}, {{ author.authors__forename }}</td>
+                <td>{{ author.authors__count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
 {% endblock %}

@@ -5,12 +5,12 @@
 // Document ready functions.
 $(document).ready(function(){
 
-    $('.paperlist select').change(function () {
+    $('#reference-list select').change(function () {
         var myform = $(this).closest('form');
         myform.submit();
     });
 
-    $('.paperlist input').change(function () {
+    $('#reference-list input').change(function () {
         var myform = $(this).closest('form');
         myform.submit();
     });

@@ -41,8 +41,9 @@
 
         <div id="main-menu" class="grid_12"></div>
 
-        {% block content %}{% endblock %}
-        {% block sidebar %}{% endblock %}
+        <div id="main-content" role="main" class="grid_12">
+            {% block content %}{% endblock %}
+        </div>
 
         <div id="main-footnote" class="quiet grid_12">
             *references extracted from Mendeley database only, for now.
