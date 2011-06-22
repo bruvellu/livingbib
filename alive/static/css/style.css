@@ -169,28 +169,10 @@ h4 { font-size:1.2em; margin:0 0 0.3em 0; }
 
 header, footer, div#search-box,
 div#site-description, div#home-taxa,
-div#taxon-info, div#reference-list, div#side-info, div.citation { margin-top:1em; margin-bottom:1em; }
+div#taxon-info, div#reference-list, div#side-info, div.citation, div#main-footnote { margin-top:1em; margin-bottom:1em; }
 header h1 { margin: 0; }
 header a { color:#444444; text-decoration:none; }
 header span { font-size:1.5em; }
-/*
-
-div.paperlist {
-    margin:0;
-    padding:0;
-    list-style-type:none;
-}
-
-div.citation { padding:1em 0; }
-div#home-taxa { margin:0 0 1em 0; }
-div.rankings { margin:1em 0; }
-div.paperlist { margin:1em 0; }
-div#search-box { margin:0 0 1em 0; }
-div#search-results { margin:1em 0; }
-div.rankings table { text-align:left; }
-div.rankings table td { padding:2px 10px 0 0; }
-
-div.search-taxon { padding:1em; }*/
 
 div.search-taxon:hover { background:#fafafa; color:#607890; }
 #search-results a,
