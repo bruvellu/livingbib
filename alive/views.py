@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from ubio import uBio
+from livingbib.ubio import uBio
 import pickle
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #from django.contrib.auth.decorators import login_required
@@ -39,6 +39,7 @@ def search_page(request):
                 taxa = pickle.load(taxapic)
                 taxapic.close()
             except:
+                #TODO Handle connection problems, better at ubio.py.
                 ubio = uBio()
                 taxa = ubio.search_name(query)
                 taxapic = open('queries/' + query, 'wb')
