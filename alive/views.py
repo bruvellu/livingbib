@@ -83,16 +83,22 @@ def taxon_page(request, slug):
     try:
         taxon = Taxon.objects.select_related().get(slug=slug)
     except:
+        # Pretend it is a regular query.
         query = slug.replace('-', ' ')
+        # Call uBio to help.
         ubio = uBio()
         taxa = ubio.search_name(query)
+        # Uppercase the first letter of the first word.
         prename = query.split(' ')
         prename[0] = prename[0].title()
         name = ' '.join(prename)
+        # Scan query results to check if the slug (taxon) exists.
+        # It must be an exact match to a known uBio entry to create the taxon.
         for entry in taxa:
             if entry['name'].lower() == query.lower():
                 taxon = Taxon(name=name)
                 taxon.save()
+        #XXX What happens when taxon object is not created?
 
     # Deal with articles.
     if reverse:
