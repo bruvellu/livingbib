@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Search page</h2>
+
+<form id="search-form" method="get" action=".">
+    {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span>
+    <p class="quiet">Powered by <a href="http://www.ubio.org/">uBio</a> web services.</p>
+</form>
+
+{% if show %}
+<div class="quiet align-right"><a href="/search/">Click to clear search results.</a></div>
+<div id="search-results">
+    <h3>{{ query }}</h3>
+    {% if taxa %}
+    {% for taxon in taxa %}
+    <a href="/taxon/{{ taxon.name|slugify }}/">
+    <div class="grid_12 search-taxon">
+        <h4>{{ taxon.name }}</h4>
+        {% if taxon.scientific %}
+        <ul>
+            {% for entry in taxon.scientific %}
+            <li>
+            <span class="quiet">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if taxon.vernacular %}
+        <ul>
+            {% for entry in taxon.vernacular %}
+            <li>
+            <span class="quiet">Common</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        </li>
+    </div>
+    </a>
+    <div class="clear"></div>
+    {% endfor %}
+ 
+    {% else %}
+    Sorry, no taxon was found :(
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
