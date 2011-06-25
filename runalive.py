@@ -205,6 +205,8 @@ def fetch(taxon_name):
                             #oa_journal=details['oa_journal']
 
                     print 'Creating article...'
+                    #FIXME Handle "temporarily unavailable" error from Mendeley
+                    # {"error":"Mendeley is temporarily unavailable. Please try again later."}
                     article = Article(**metadata)
                     article.rank = rank
 
