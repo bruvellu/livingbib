@@ -132,8 +132,11 @@ def taxon_page(request, slug):
             fetching = True
 
     if last_query:
-        fetch_ratio = articles.count() / float(last_query.total_results) * 100
-        fetch_ratio = round(fetch_ratio, 2)
+        if last_query.total_results != 0:
+            fetch_ratio = articles.count() / float(last_query.total_results) * 100
+            fetch_ratio = round(fetch_ratio, 2)
+        else:
+            fetch_ratio = ''
     else:
         fetch_ratio = ''
 
