@@ -16,10 +16,12 @@ from datetime import datetime, timedelta
 def home_page(request):
     '''Home page.'''
     taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
+    queries = Query.objects.select_related().order_by('-timestamp')[:50]
     form = SearchForm()
     variables = RequestContext(request, {
         'taxa': taxa,
         'form': form,
+        'queries': queries,
         })
     return render_to_response('home.html', variables)
 
