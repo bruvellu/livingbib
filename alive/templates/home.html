@@ -25,7 +25,7 @@
     <a href="{{ taxon.get_absolute_url }}">
         <div class="{% cycle 'dark-row' 'light-row' %}">
             {{ taxon.name }}
-            <div class="float-right align-right">{{ taxon.total_results }}</div>
+            <div class="float-right align-right">{{ taxon.total_results }} ({{ taxon.delta }})</div>
         </div>
     </a>
     {% endfor %}
