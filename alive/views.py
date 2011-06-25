@@ -129,6 +129,12 @@ def taxon_page(request, slug):
             fetch_references(taxon.name) # Checks again for updates.
             fetching = True
 
+    if last_query:
+        fetch_ratio = articles.count() / float(last_query.total_results) * 100
+        fetch_ratio = round(fetch_ratio, 2)
+    else:
+        fetch_ratio = ''
+
     variables = RequestContext(request, {
         'taxon': taxon,
         'last_query': last_query,
@@ -136,5 +142,6 @@ def taxon_page(request, slug):
         'sortform': sortform,
         'top_authors': top_authors,
         'fetching': fetching,
+        'fetch_ratio': fetch_ratio,
         })
     return render_to_response('taxon.html', variables)

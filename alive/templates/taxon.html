@@ -4,10 +4,15 @@
 
 <div class="grid_12 omega alpha" id="taxon-info">
     <h2>{{ taxon.name }}</h2>
+    {% if last_query %}
     <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
-    <strong>Results:</strong> {{ last_query.total_results }}<br>
+    <strong>Results:</strong> {{ last_query.total_results }} ({{ fetch_ratio }}% fetched)<br>
+    {% else %}
+    <strong>Last updated:</strong> Never.<br>
+    <strong>Results:</strong> None, yet.<br>
+    {% endif %}
     {% if fetching %}
-    <span class="quiet">References are being fetched right now (or it might take a while). Refresh the page soon, if ready, this message will disappear.</span>
+    <span class="quiet">References are being fetched right now (it might take a while). Please refresh the page when you feel it is time.</span>
     {% endif %}
 </div>
 
