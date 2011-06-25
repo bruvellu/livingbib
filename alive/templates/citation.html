@@ -14,7 +14,7 @@
     {% endif %}
 
     {% if article.identifier_set.all %}
-    <strong>Identifiers:</strong> {% for id in article.identifier_set.all %}{{ id.type }}:{{ id.value }}{% if not forloop.last %} | {% endif %}{% endfor %}<br>
+    <strong>Identifiers:</strong> {% for id in article.identifier_set.all %}{{ id.type }}:{% if id.get_absolute_url %}<a href="{{ id.get_absolute_url }}">{{ id.value }}</a>{% else %}{{ id.value }}{% endif %}{% if not forloop.last %} | {% endif %}{% endfor %}<br>
     {% endif %}
 
     {% if article.categories.all %}

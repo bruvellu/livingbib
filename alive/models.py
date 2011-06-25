@@ -234,6 +234,18 @@ class Identifier(models.Model):
     def __unicode__(self):
         return self.type + ': ' + self.value
 
+    def get_absolute_url(self):
+        if self.type == 'doi':
+            return 'http://dx.doi.org/%s' % self.value
+        elif self.type == 'pmid':
+            return 'http://www.ncbi.nlm.nih.gov/pubmed/%s' % self.value
+        elif self.type == 'pmc_id':
+            return 'http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%s/' % self.value
+        else:
+            return None
+        #elif self.type == 'issn':
+        #    return 'http://www.google.com/search?tbm=bks&q=issn:%s' % self.value
+
 
 # Signals calls.
 signals.pre_save.connect(slug_pre_save, sender=Taxon)
