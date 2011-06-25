@@ -1,26 +1,18 @@
 # Living Bibliography
 
-This app queries Mendeley database (via API) for a specific taxon name and displays a list of references. The idea is to aggregate references about a specific species and extract some fun from it. For example, the most popular organisms, trending taxa, top authors by taxon, etc. There are many hiccups, of course, but I decided to give it a try.  
+This app queries [Mendeley](http://www.mendeley.com) database (via API) for a specific taxon name and displays a list of references. The idea is to aggregate references about a specific species and extract some fun from it. For example, the most popular organisms, trending taxa, top authors by taxon, etc. Taxon search is powered by [uBio](http://www.ubio.com/) web services allowing the use of a scientific or common name in queries.
 
-For now I just layed out the basic models and templates and got 50 references
-from some model organisms. Have a [look](http://livingbib.organelas.com/)!
+Only the basics are working now. You can search and click on a taxon to see a list of related articles. If the taxon is not in the database yet, fetching is run on demand (you will need to wait a bit and refresh the page until I smooth it out to update the page automatically). A taxon page shows a list of references with a few ordering controls (eg, readers, year, journal) and links to the article page, when available.
 
-Feel free to contribute with ideas and hacks.
+Give it a try: [livingbib.organelas.com](http://livingbib.organelas.com/)!
 
-Here is a quicklist with some features:
+This is an experiment Feel free to contribute with ideas and hacks.
 
-## ToDos
+## Some ideas
 
-- Main page showing the most popular taxa.
-- Proper taxonomic tree pulled from ITIS.
-- Search with smooth taxon name autocomplete.
-- Show number of results, top authors and top journals for each taxon.
-- Display graph with number of publications per year for taxon (similar to
-  [this](http://organismnames.com/metrics.htm?page=graphs)).
-- Standardize taxon information via uBio tools?
-- Create links from identifiers.
-- Provide links to external taxonomic/biological databases (eol, wikispecies, etc).
-- Pull and display image and taxon description (from wikispecies/eol?).
-- Quickly order list with Ajax calls and refine results by metadata.
-- Search twitter and other activity streams for live feed about a taxon.
-- Provide an easy way to save references to reference managers (coins).
+- Apply classification schema to taxa in order to also include references from child
+  nodes when browsing higher taxonomic ranks (eg, phylo).
+- Define a set of basic statistics for a taxon (eg, active authors, top journals).
+- Visualize data with nice graphs.
+- Pull data and integrate with external biological databases.
+- Provide standard ways to save references (COinS).
