@@ -119,12 +119,15 @@ def taxon_page(request, slug):
         top_authors = []
 
     # Calls for reference fetching.
+    fetching = False
     if not last_query:
         fetch_references(taxon.name) # New taxon.
+        fetching = True
     else:
         now = datetime.now()
         if (now - last_query.timestamp) > timedelta(days=7):
             fetch_references(taxon.name) # Checks again for updates.
+            fetching = True
 
     variables = RequestContext(request, {
         'taxon': taxon,
@@ -132,5 +135,6 @@ def taxon_page(request, slug):
         'articles': articles,
         'sortform': sortform,
         'top_authors': top_authors,
+        'fetching': fetching,
         })
     return render_to_response('taxon.html', variables)

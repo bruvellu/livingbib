@@ -6,6 +6,9 @@
     <h2>{{ taxon.name }}</h2>
     <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
     <strong>Results:</strong> {{ last_query.total_results }}<br>
+    {% if fetching %}
+    <span class="quiet">References are being fetched right now (or it might take a while). Refresh the page soon, if ready, this message will disappear.</span>
+    {% endif %}
 </div>
 
 <div class="grid_9 alpha" id="reference-list">
