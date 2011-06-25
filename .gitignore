@@ -6,7 +6,6 @@
 fabfile.py
 keycode.py
 octopus.xml
-runalive.py
 secret.py
 queries
 alive/fixtures
