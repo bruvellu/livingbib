@@ -1,5 +1,5 @@
 from djutils.queue.decorators import queue_command
-from runalive import fetch
+from livingbib.runalive import fetch
 
 @queue_command
 def fetch_references(taxon_name):
