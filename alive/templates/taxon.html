@@ -26,10 +26,10 @@
 
     {% else %}
 
-        {% if taxon.total_results %}
+        {% if taxon.total_results == 0 %}
         Sorry, we could not find any articles about <strong>{{ taxon.name }}</strong>.
         {% else %}
-        Sorry, we are still fetching articles for <strong>{{ taxon.name }}</strong>. Please come back soon.
+        Fetching articles for <strong>{{ taxon.name }}</strong>... Please come back soon.
         {% endif %}
 
     {% endif %}
