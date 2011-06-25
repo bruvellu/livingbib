@@ -1,3 +1,4 @@
+from commands import *
 from models import *
 from forms import *
 from django.db.models import Count
@@ -7,6 +8,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from livingbib.ubio import uBio
 import pickle
+from datetime import datetime, timedelta
 #from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #from django.contrib.auth.decorators import login_required
 #from django.core.cache import cache
@@ -55,7 +57,6 @@ def search_page(request):
 
 def taxon_page(request, slug):
     '''Taxon page.'''
-
     # Handling session keys for sorting.
     try:
         sorting = request.session['sorting']
@@ -116,6 +117,15 @@ def taxon_page(request, slug):
         top_authors = articles.values('authors__forename', 'authors__surname').annotate(Count('authors')).order_by('-authors__count')[:10]
     except:
         top_authors = []
+
+    # Calls for reference fetching.
+    if not last_query:
+        fetch_references(taxon.name) # New taxon.
+    else:
+        now = datetime.now()
+        if (now - last_query.timestamp) > timedelta(days=7):
+            fetch_references(taxon.name) # Checks again for updates.
+
     variables = RequestContext(request, {
         'taxon': taxon,
         'last_query': last_query,

@@ -10,8 +10,11 @@ def slug_pre_save(signal, instance, sender, **kwargs):
 
 def update_delta(signal, instance, sender, **kwargs):
     '''Update variation of total results for taxon query.'''
-    delta = instance.total_results - instance.taxon.total_results
-    instance.delta = delta
+    try:
+        delta = instance.total_results - instance.taxon.total_results
+        instance.delta = delta
+    except:
+        instance.delta = 0
 
 def update_results(signal, instance, sender, **kwargs):
     '''Update total number of results for taxon query.'''

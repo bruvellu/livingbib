@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.syndication',
     'livingbib.alive',
+    'djutils',
     #'south',
     #'mptt',
     #'debug_toolbar',
