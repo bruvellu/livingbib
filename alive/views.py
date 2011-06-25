@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 
 def home_page(request):
     '''Home page.'''
-    taxa = Taxon.objects.select_related().order_by('-total_results')
+    taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
     form = SearchForm()
     variables = RequestContext(request, {
         'taxa': taxa,
