@@ -30,6 +30,7 @@
     <ul>
         <li>Data visualization with graphs and charts (popular organisms, trending taxa, active authors by taxa, etc).</li>
         <li>Integration with other biological databases (pull data to enrich content, provide external links, etc).</li>
+        <li>Fetch articles from different sources.</li>
     </ul>
     </p>
     <p>
@@ -58,9 +59,22 @@
 
 <div class="grid_12 omega alpha" id="latest-queries">
     <h2>Latest updates</h2>
+    <p>
     {% for query in queries %}
     <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}
+    </p>
+</div>
+
+<div class="grid_12 omega alpha" id="caveats">
+    <h2>Caveats</h2>
+    <p>
+    <ul>
+        <li>Reference fetching will not be running continuously. If no references appear after 2 minutes, it might be unavailable at the moment. All queries are queued and references will be fetched when the daemon is running again. Sorry for the inconvenience, I will handle this ASAP.</li>
+        <li>You will find duplicated references, badly formatted titles, misnamed authors, wrong journal information, etc. Since data is solely fetched from Mendeley the accuracy of information is on their hands.</li>
+        <li>Sometimes Mendeley API returns a "temporarily unavailable" error and fetching is truncated. Otherwise, results are limited to 50 references until the system becomes more stable.</li>
+    </ul>
+    </p>
 </div>
 
 {% endblock %}
