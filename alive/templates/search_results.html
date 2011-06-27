@@ -1,0 +1,32 @@
+<h3>{{ query }}</h3>
+{% if taxa %}
+    {% for taxon in taxa %}
+    <a href="/taxon/{{ taxon.name|slugify }}/">
+        <div class="grid_12 search-taxon">
+            <h4>{{ taxon.name }}</h4>
+            {% if taxon.scientific %}
+            <ul>
+                {% for entry in taxon.scientific %}
+                <li>
+                <span class="quiet">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if taxon.vernacular %}
+            <ul>
+                {% for entry in taxon.vernacular %}
+                <li>
+                <span class="quiet">Common</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </a>
+<div class="clear"></div>
+{% endfor %}
+
+{% else %}
+Sorry, no taxon was found :(
+{% endif %}
