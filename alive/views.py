@@ -55,7 +55,10 @@ def search_page(request):
         'show': show,
         'taxa': taxa,
         })
-    return render_to_response('search.html', variables)
+    if request.is_ajax():
+        return render_to_response('search_results.html', variables)
+    else:
+        return render_to_response('search.html', variables)
 
 def taxon_page(request, slug):
     '''Taxon page.'''

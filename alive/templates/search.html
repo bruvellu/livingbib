@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="search-page">
 
 <h2>Search page</h2>
 
 <form id="search-form" method="get" action=".">
-    {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span>
+    {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span> <span id="loading"></span>
     <p class="quiet">Powered by <a href="http://www.ubio.org/">uBio</a> web services.</p>
 </form>
 
-{% if show %}
-<div class="quiet align-right"><a href="/search/">Click to clear search results.</a></div>
 <div id="search-results">
+{% if show %}
     {% include 'search_results.html' %}
-</div>
 {% endif %}
+</div>
 
+</div>
 {% endblock %}
 
 {% block sidebar %}

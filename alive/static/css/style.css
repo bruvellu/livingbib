@@ -188,6 +188,13 @@ div.search-taxon:hover { background:#fafafa; color:#607890; }
 #home-taxa a { color:#444444; text-decoration:none; }
 .dark-row:hover, .light-row:hover { background:#ffffff; color:#607890; }
 
+#loading {
+    background:url("/static/img/loader.gif") no-repeat scroll 0 0 transparent;
+    margin:0 10px;
+    padding:0 8px;
+    display:none;
+}
+
 .align-right { text-align:right; }
 .align-left { text-align:left; }
 .align-center { text-align:center; }
