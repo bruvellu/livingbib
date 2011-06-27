@@ -55,6 +55,7 @@ def search_page(request):
         'query': query,
         'show': show,
         'taxa': taxa,
+        'n': len(taxa),
         })
     if request.is_ajax():
         return render_to_response('search_results.html', variables)
