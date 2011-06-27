@@ -36,6 +36,7 @@ def search_page(request):
         query = request.GET['query'].strip()
         if query:
             form = SearchForm({'query': query})
+            query = query.lower()
             show = True
             try:
                 # Queries are cached as pickle objects.

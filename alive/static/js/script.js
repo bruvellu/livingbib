@@ -7,13 +7,14 @@ function search_submit() {
     $("#search-results").load(
             "/search/?query=" + encodeURIComponent(query)
             );
+    // Padronize to lowercase
+    var queryLower = query.toLowerCase()
     // Update browser url display.
     // https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history
     var stateObj = { uquery: query };
-    history.pushState(stateObj, query, "?query=" + encodeURIComponent(query).replace("%20", "+"))
+    history.pushState(stateObj, query, "?query=" + encodeURIComponent(queryLower).replace("%20", "+"));
     return false;
 }
-
 
 // Document ready functions.
 $(document).ready(function(){
