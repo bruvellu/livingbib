@@ -3,6 +3,7 @@
 */
 
 function search_submit() {
+    $("#search-results").fadeOut();
     var query = $("#id_query").val();
     $("#search-results").load(
             "/search/?query=" + encodeURIComponent(query)
@@ -29,6 +30,7 @@ $(document).ready(function(){
         })
         .ajaxStop(function() {
             $(this).fadeOut();
+            $("#search-results").fadeIn('slow');
         });
 
     $('#reference-list select').change(function () {
