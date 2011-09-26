@@ -1,33 +1,53 @@
-<div class="quiet align-right"><a href="/search/">clear {{ n }} search result{{ n|pluralize }}</a></div>
-<h3>{{ query|capfirst }}</h3>
-{% if taxa %}
-    {% for taxon in taxa %}
-    <a href="/taxon/{{ taxon.name|slugify }}/">
-        <div class="grid_12 search-taxon">
-            <h4>{{ taxon.name }}</h4>
-            {% if taxon.scientific %}
-            <ul>
-                {% for entry in taxon.scientific %}
-                <li>
-                <span class="quiet">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% if taxon.vernacular %}
-            <ul>
-                {% for entry in taxon.vernacular %}
-                <li>
-                <span class="quiet">Common</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        </div>
-    </a>
-<div class="clear"></div>
-{% endfor %}
+<div class="row">
 
-{% else %}
-Sorry, no taxon was found :(
-{% endif %}
+  <div class="span16" id="search-status">
+
+    <h3>
+      {{ query|capfirst }}
+      <span class="label {% if n == 0 %}important{% else %}success{% endif %}">{{ n }} result{{ n|pluralize }}</span>
+      <form class="ajax pull-right" id="clear-form" method="get" action=".">
+        <button class="btn danger" type="submit">Clear</button>
+        <input name="query" value="" type="hidden" id="">
+      </form>
+    </h3>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="span16" id="search-table">
+    {% if taxa %}
+        {% for taxon in taxa %}
+        <a href="/taxon/{{ taxon.name|slugify }}/">
+            <div class="grid_12 search-taxon">
+                <h4>{{ taxon.name }}</h4>
+                {% if taxon.scientific %}
+                <ul>
+                    {% for entry in taxon.scientific %}
+                    <li>
+                    <span class="quiet">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if taxon.vernacular %}
+                <ul>
+                    {% for entry in taxon.vernacular %}
+                    <li>
+                    <span class="quiet">Common</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </a>
+    <div class="clear"></div>
+    {% endfor %}
+
+    {% else %}
+    Sorry, not a single taxon was found :(
+    {% endif %}
+  </div>
+</div>

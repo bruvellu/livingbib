@@ -3,18 +3,17 @@
 {% block content %}
 <div id="search-page">
 
-<h2>Search page</h2>
+  <h2>Search page <small>powered by <a href="http://www.ubio.org/">uBio</a> web services.</small></h2>
 
-<form id="search-form" method="get" action=".">
-    {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span> <span id="loading"></span>
-    <p class="quiet">Powered by <a href="http://www.ubio.org/">uBio</a> web services.</p>
-</form>
-
-<div id="search-results">
-{% if show %}
-    {% include 'search_results.html' %}
-{% endif %}
-</div>
+  <div id="search-results">
+    {% if show %}
+      {% include 'search_results.html' %}
+    {% else %}
+      <div class="alert-message notice">
+        Type a scientific or common name of a taxon in the search box above and press <strong>Search</strong>.
+      </div>
+    {% endif %}
+  </div>
 
 </div>
 {% endblock %}

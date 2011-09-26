@@ -13,11 +13,15 @@ from datetime import datetime, timedelta
 #from django.contrib.auth.decorators import login_required
 #from django.core.cache import cache
 
+#XXX Calling topbar search form in every view...
+# Might be better to create a template tag, but need some work to handle requests.
+
 def home_page(request):
     '''Home page.'''
+    # Search form.
+    form = SearchForm()
     taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
     queries = Query.objects.select_related().order_by('-timestamp')[:50]
-    form = SearchForm()
     variables = RequestContext(request, {
         'taxa': taxa,
         'form': form,
@@ -27,19 +31,31 @@ def home_page(request):
 
 def search_page(request):
     '''Search page.'''
+    # Search form.
     form = SearchForm()
+
+    # Default values for objects.
     taxa = []
     query = ''
     scientific, vernacular = [], []
     show = False
+
     if 'query' in request.GET:
+        # Remove white spaces.
         query = request.GET['query'].strip()
         if query:
+            # Instantiate search form.
             form = SearchForm({'query': query})
+
+            # Standardize queries to lowercase.
             query = query.lower()
+
+            # Flag to show results in the template.
             show = True
+
+            # Get taxa from pickled objects or via uBio.
             try:
-                # Queries are cached as pickle objects.
+                # Queries are cached as pickled objects.
                 taxapic = open('queries/' + query, 'rb')
                 taxa = pickle.load(taxapic)
                 taxapic.close()
@@ -47,9 +63,14 @@ def search_page(request):
                 #TODO Handle connection problems, better at ubio.py.
                 ubio = uBio()
                 taxa = ubio.search_name(query)
+                # Save query as pickled object.
                 taxapic = open('queries/' + query, 'wb')
                 pickle.dump(taxa, taxapic)
                 taxapic.close()
+        #TODO If query is empty remove request.GET.
+        #else:
+            # Maybe do this with js.
+
     variables = RequestContext(request, {
         'form': form,
         'query': query,
