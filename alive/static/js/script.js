@@ -21,7 +21,10 @@ function search_submit() {
 $(document).ready(function(){
 
     // Anexa a submissão do formulário com a função.
-    $("#search-page #search-form").submit(search_submit);
+    var searchForm = $("#search-form")
+    if ( searchForm.hasClass('ajax') == true ) {
+      searchForm.submit(search_submit);
+      }
 
     // Ativa o loading quando existe um Ajax call.
     $('#loading').hide()

@@ -56,9 +56,10 @@
           {% endcomment %}
         </ul>
 
-        <form id="search-form" method="get" action="/search/">
+        <form {% if request.META.PATH_INFO == '/search/' %}class="ajax"{% endif %} id="search-form" method="get" action="/search/">
           <button class="btn" type="submit">Search</button>
           {{ form.query }}
+          <span id="loading"></span>
         </form>
 
         {% comment %}
