@@ -65,12 +65,10 @@
       </thead>
       <tbody>
         {% for taxon in taxa %}
-        <a href="{{ taxon.get_absolute_url }}">
         <tr>
-          <td>{{ taxon.name }}</td>
+          <td><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a></td>
           <td>{{ taxon.total_results }}</td>
         </tr>
-        </a>
         {% endfor %}
       </tbody>
     </table>
