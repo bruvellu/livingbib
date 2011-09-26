@@ -4,46 +4,20 @@
 
 <!-- Main hero unit for a primary marketing message or call to action -->
 <div class="hero-unit">
-  <h1>References from your favorite taxa!</h1>
-  <em>Living Bibliography</em> aggregates scientific references by taxa. Data is fetched on demand from <a href="http://www.mendeley.com/">Mendeley</a> database (via <a href="http://dev.mendeley.com/">API</a>) and taxon search is powered by <a href="http://www.ubio.org/">uBio</a> <a href="http://www.ubio.org/index.php?pagename=services_overview">NameBank web services</a>.
+  <h1>Follow your favorite taxa!</h1>
+  <p>
+  <em>Living Bibliography</em> aggregates scientific references by taxa.
+  </p>
+  {% comment %}
   <p><a class="btn primary large">Learn more &raquo;</a></p>
+  {% endcomment %}
 </div>
-
-<div id="search-box" class="grid_12 alpha omega">
-    <form id="search-form" method="get" action="/search/">
-        {{ form.query.label_tag }}<strong>:</strong> {{ form.query }} <input type="submit" value="Find" class="fashion" /> <span class="quiet">{{ form.query.help_text }}</span>
-    </form>
-</div>
-
 
 <!-- Example row of columns -->
 <div class="row">
-  <div class="span6">
-    <h2>Heading</h2>
-    <p>Etiam porta sem malesuada magna mollis euismod. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-    <p><a class="btn" href="#">View details &raquo;</a></p>
-  </div>
-  <div class="span5">
-    <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn" href="#">View details &raquo;</a></p>
-  </div>
-  <div class="span5">
-    <h2>Heading</h2>
-    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-    <p><a class="btn" href="#">View details &raquo;</a></p>
-  </div>
-</div>
 
-<div id="site-description" class="grid_6 alpha">
-    <h2>What it is</h2>
-    <p>
-    <em>Living Bibliography</em> aggregates scientific references by taxa. Data is fetched on demand from <a href="http://www.mendeley.com/">Mendeley</a> database (via <a href="http://dev.mendeley.com/">API</a>) and taxon search is powered by <a href="http://www.ubio.org/">uBio</a> <a href="http://www.ubio.org/index.php?pagename=services_overview">NameBank web services</a>.
-    </p>
-    <p>
-    A prototype of this app was initially deployed during the <a href="http://www.mendeley.com/blog/developer-resources/hack4knowledge-mendeley-living-bibliographies-visual-search-and-more-h4k/">Hack4Knowledge</a> meeting. Since then, I made a few improvements to the code and got the basic functions working. It is still pretty raw, but you can now search for any taxon and retrieve the related references.
-    </p>
-    <h3>Step by step</h3>
+  <div class="span8">
+    <h2>Step by step</h2>
     <p>
     <ol>
         <li>Type a scientific or common name of a taxon you know.</li>
@@ -52,20 +26,34 @@
         <li>Browse through references.</li>
     </ol>
     </p>
-    <h3>Ideas</h3>
+  </div>
+
+  <div id="site-description" class="span8">
+    <h2>What it is</h2>
     <p>
-    <ul>
-        <li>Data visualization with graphs and charts (popular organisms, trending taxa, active authors by taxa, etc).</li>
-        <li>Integration with other biological databases (pull data to enrich content, provide external links, etc).</li>
-        <li>Fetch articles from different sources.</li>
-    </ul>
+    <em>Living Bibliography</em> aggregates scientific references by taxa. Data is fetched on demand from <a href="http://www.mendeley.com/">Mendeley</a> database (via <a href="http://dev.mendeley.com/">API</a>) and taxon search is powered by <a href="http://www.ubio.org/">uBio</a> <a href="http://www.ubio.org/index.php?pagename=services_overview">NameBank web services</a>.
+    </p>
+    <p>
+    A prototype of this app was initially deployed during the <a href="http://www.mendeley.com/blog/developer-resources/hack4knowledge-mendeley-living-bibliographies-visual-search-and-more-h4k/">Hack4Knowledge</a> meeting. Since then, I made a few improvements to the code and got the basic functions working. It is still pretty raw, but you can now search for any taxon and retrieve the related references.
     </p>
     <p>
     Code is <a href="https://github.com/nelas/livingbib">open source</a>. Feel free to join and share opinions about it.
     </p>
+  </div>
 </div>
 
-<div id="home-taxa" class="grid_6 omega">
+<div id="home-data" class="row">
+
+  <div id="latest-queries" class="span8">
+    <h2>Latest updates</h2>
+    <p>
+    {% for query in queries %}
+    <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+  </div>
+
+  <div id="popular-taxa" class="span8">
     <h2>Popular taxa</h2>
 
     <table class="zebra-striped">
@@ -86,19 +74,13 @@
         {% endfor %}
       </tbody>
     </table>
+  </div>
 
 </div>
 
-<div class="grid_12 omega alpha" id="latest-queries">
-    <h2>Latest updates</h2>
-    <p>
-    {% for query in queries %}
-    <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-    </p>
-</div>
+<div class="row">
 
-<div class="grid_12 omega alpha" id="caveats">
+  <div class="span8" id="caveats">
     <h2>Caveats</h2>
     <p>
     <ul>
@@ -107,6 +89,19 @@
         <li>Sometimes Mendeley API returns a "temporarily unavailable" error and fetching is truncated. Otherwise, results are limited to 50 references until the system becomes more stable.</li>
     </ul>
     </p>
+  </div>
+
+  <div class="span8">
+    <h2>Ideas</h2>
+    <p>
+    <ul>
+        <li>Data visualization with graphs and charts (popular organisms, trending taxa, active authors by taxa, etc).</li>
+        <li>Integration with other biological databases (pull data to enrich content, provide external links, etc).</li>
+        <li>Fetch articles from different sources.</li>
+    </ul>
+    </p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
+  </div>
 </div>
 
 {% endblock %}
