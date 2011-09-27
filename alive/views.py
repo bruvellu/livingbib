@@ -85,6 +85,9 @@ def search_page(request):
 
 def taxon_page(request, slug):
     '''Taxon page.'''
+    # Search form.
+    form = SearchForm()
+
     # Handling session keys for sorting.
     try:
         sorting = request.session['sorting']
@@ -174,5 +177,6 @@ def taxon_page(request, slug):
         'top_authors': top_authors,
         'fetching': fetching,
         'fetch_ratio': fetch_ratio,
+        'form': form,
         })
     return render_to_response('taxon.html', variables)
