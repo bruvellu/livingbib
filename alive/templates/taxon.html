@@ -2,28 +2,40 @@
 
 {% block content %}
 
+<h2>
+  {{ taxon.name }}
+
+  <form class="ajax pull-right" id="follow-form" method="post" action=".">
+    <button class="btn success" type="submit">Follow</button>
+    <input name="follow" value="{{ taxon.id }}" type="hidden" id="">
+  </form>
+</h2>
+
 <div class="row" id="taxon-info">
 
   <div class="span8" id="taxon-status">
-    <h2>{{ taxon.name }}</h2>
-
-    <form action="." method="post" class="float-right">
-        {{ sortform.as_p }}
-        {% csrf_token %}
-    </form>
-
+    <ul class="media-grid">
+      <li>
+      <a href="#">
+        <img class="thumbnail" src="" alt="IMAGE" width="210" height="115">
+      </a>
+      </li>
+    </ul>
   </div>
 
   <div class="span8" id="query-status">
+    <h3>Stats</h3>
+    <p>
     {% if last_query %}
-    <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
-    <strong>Results:</strong> {{ last_query.total_results }} ({{ fetch_ratio }}% fetched)<br>
+    <span class="label">Results</span> {{ last_query.total_results }}{% if not last_query.total_results == 0 %} ({{ fetch_ratio }}% fetched){% endif %} <span class="label">Last updated</span> {{ last_query.timestamp }} <br>
     {% else %}
-    <strong>Last updated:</strong> Never.<br>
-    <strong>Results:</strong> None, yet.<br>
+    <span class="label">Results</span> None, yet. <span class="label">Last updated</span> Never.<br>
     {% endif %}
+    </p>
     {% if fetching %}
-    <span class="quiet">References are being fetched right now (it might take a while). Please refresh the page when you feel it is time.</span>
+    <div class="alert-message warning fade in" data-alert="alert">
+      <p>References are being fetched right now (it might take a while). <span id="loading" style="display:inline;"></span></p>
+    </div>
     {% endif %}
   </div>
 

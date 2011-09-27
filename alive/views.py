@@ -88,30 +88,6 @@ def taxon_page(request, slug):
     # Search form.
     form = SearchForm()
 
-    # Handling session keys for sorting.
-    try:
-        sorting = request.session['sorting']
-    except:
-        sorting = 'rank'
-    try:
-        reverse = request.session['reverse']
-    except:
-        reverse = False
-
-    # Handling search form.
-    sortform = SortForm(initial={'type': sorting, 'reverse': reverse})
-    if request.method == 'POST':
-        sortform = SortForm(request.POST)
-        if sortform.is_valid():
-            sorting = sortform.data['type']
-            request.session['sorting'] = sortform.data['type']
-            try:
-                reverse = sortform.data['reverse']
-                request.session['reverse'] = True
-            except:
-                reverse = False
-                request.session['reverse'] = False
-
     # Get or create taxon instance.
     try:
         taxon = Taxon.objects.select_related().get(slug=slug)
@@ -134,10 +110,7 @@ def taxon_page(request, slug):
         #XXX What happens when taxon object is not created?
 
     # Deal with articles.
-    if reverse:
-        articles = taxon.articles.order_by('-' + sorting)
-    else:
-        articles = taxon.articles.order_by(sorting)
+    articles = taxon.articles.all()
 
     try:
         last_query = Query.objects.filter(taxon=taxon).order_by('-timestamp')[0]
@@ -173,7 +146,6 @@ def taxon_page(request, slug):
         'taxon': taxon,
         'last_query': last_query,
         'articles': articles,
-        'sortform': sortform,
         'top_authors': top_authors,
         'fetching': fetching,
         'fetch_ratio': fetch_ratio,
