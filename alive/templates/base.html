@@ -30,8 +30,8 @@
   <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}apple-touch-icon-114x114.png">
 
   <!-- CSS: implied media="all" -->
-  {% comment %} <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"> {% endcomment %}
   {% comment %} <link rel="stylesheet" href="{{ STATIC_URL }}css/960.css"> {% endcomment %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
   <style type="text/css"> body { padding-top: 60px; } </style>
 
@@ -68,9 +68,9 @@
 
           <li>
           <form {% if request.META.PATH_INFO == '/search/' %}class="ajax"{% endif %} id="search-form" method="get" action="/search/">
+            <span id="loading"></span>
             <button class="btn" type="submit">Search</button>
             {{ form.query }}
-            <span id="loading"></span>
           </form>
           </li>
 
