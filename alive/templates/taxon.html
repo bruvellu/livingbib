@@ -5,10 +5,14 @@
 <h2>
   {{ taxon.name }}
 
+  {% with logged=user.is_authenticated %}
   <form class="ajax pull-right" id="follow-form" method="post" action=".">
-    <button class="btn success" type="submit">Follow</button>
-    <input name="follow" value="{{ taxon.id }}" type="hidden" id="">
+    {% if not logged %}<small>Sign in to </small>{% endif %}<button class="btn {% if not logged %}disabled{% else %}success{% endif %}" type="submit">Follow</button>
+    <input name="follow" value="{{ taxon.id }}" type="hidden" id="rand" onclick="Dajaxice.livingbib.alive.follow(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'user_id': '{{ user.id }}'})">
+    {% csrf_token %}
   </form>
+  {% endwith %}
+
 </h2>
 
 <div class="row" id="taxon-info">
@@ -26,15 +30,27 @@
   <div class="span8" id="query-status">
     <h3>Stats</h3>
     <p>
-    {% if last_query %}
-    <span class="label">Results</span> {{ last_query.total_results }}{% if not last_query.total_results == 0 %} ({{ fetch_ratio }}% fetched){% endif %} <span class="label">Last updated</span> {{ last_query.timestamp }} <br>
-    {% else %}
-    <span class="label">Results</span> None, yet. <span class="label">Last updated</span> Never.<br>
-    {% endif %}
+    <span class="label">Results</span>
+    <span id="total-results">
+      {% if not last_query %}
+      None, yet.
+      {% else %}
+      {{ last_query.total_results }}{% if fetch_ratio %} ({{ fetch_ratio }}% fetched){% endif %}
+      {% endif %}
+    </span>
+    <span class="label">Last updated</span>
+    <span id="last-updated">
+      {% if not last_query %}
+      Never.
+      {% else %}
+      {{ last_query.timestamp }}
+      {% endif %}
+    </span>
     </p>
+
     {% if fetching %}
     <div class="alert-message warning fade in" data-alert="alert">
-      <p>References are being fetched right now (it might take a while). <span id="loading" style="display:inline;"></span></p>
+      <p>References are being fetched right now (it might take a while).</p>
     </div>
     {% endif %}
   </div>

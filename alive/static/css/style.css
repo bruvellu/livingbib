@@ -25,6 +25,10 @@
   margin-bottom:1em;
 }
 
+#references-table {
+  clear:both;
+}
+
 table th {
   cursor:pointer;
 }

@@ -90,7 +90,10 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.filesystem.load_template_source',
+    #'django.template.loaders.app_directories.load_template_source',
+    #'django.template.loaders.eggs.load_template_source',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -113,6 +116,9 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'livingbib.urls'
 
+# Dajaxice requirement.
+DAJAXICE_MEDIA_PREFIX = 'dajaxice'
+
 TEMPLATE_DIRS = (
         os.path.join(PROJECT_DIR, 'templates'),
 )
@@ -130,6 +136,8 @@ INSTALLED_APPS = (
     'django.contrib.syndication',
     'livingbib.alive',
     'djutils',
+    'dajaxice',
+    'dajax',
     #'south',
     #'mptt',
     #'debug_toolbar',

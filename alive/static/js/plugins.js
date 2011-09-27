@@ -17,8 +17,9 @@ window.log = function(){
 //
 // Pasted scripts:
 //      bootstrap-dropdown.js
-//      bootstrap-alerts.js
 //      jquery.dataTables.min.js
+//      dajaxice.core.js
+//      jquery.dajax.core.js
 //
 
 /* ============================================================
@@ -69,112 +70,6 @@ window.log = function(){
       })
     })
   }
-
-}( window.jQuery || window.ender );
-
-
-/* ==========================================================
- * bootstrap-alerts.js v1.3.0
- * http://twitter.github.com/bootstrap/javascript.html#alerts
- * ==========================================================
- * Copyright 2011 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================== */
-
-
-!function( $ ){
-
-  /* CSS TRANSITION SUPPORT (https://gist.github.com/373874)
-   * ======================================================= */
-
-   var transitionEnd
-
-   $(document).ready(function () {
-
-     $.support.transition = (function () {
-       var thisBody = document.body || document.documentElement
-         , thisStyle = thisBody.style
-         , support = thisStyle.transition !== undefined || thisStyle.WebkitTransition !== undefined || thisStyle.MozTransition !== undefined || thisStyle.MsTransition !== undefined || thisStyle.OTransition !== undefined
-       return support
-     })()
-
-     // set CSS transition event type
-     if ( $.support.transition ) {
-       transitionEnd = "TransitionEnd"
-       if ( $.browser.webkit ) {
-       	transitionEnd = "webkitTransitionEnd"
-       } else if ( $.browser.mozilla ) {
-       	transitionEnd = "transitionend"
-       } else if ( $.browser.opera ) {
-       	transitionEnd = "oTransitionEnd"
-       }
-     }
-
-   })
-
- /* ALERT CLASS DEFINITION
-  * ====================== */
-
-  var Alert = function ( content, selector ) {
-    this.$element = $(content)
-      .delegate(selector || '.close', 'click', this.close)
-  }
-
-  Alert.prototype = {
-
-    close: function (e) {
-      var $element = $(this).parent('.alert-message')
-
-      e && e.preventDefault()
-      $element.removeClass('in')
-
-      function removeElement () {
-        $element.remove()
-      }
-
-      $.support.transition && $element.hasClass('fade') ?
-        $element.bind(transitionEnd, removeElement) :
-        removeElement()
-    }
-
-  }
-
-
- /* ALERT PLUGIN DEFINITION
-  * ======================= */
-
-  $.fn.alert = function ( options ) {
-
-    if ( options === true ) {
-      return this.data('alert')
-    }
-
-    return this.each(function () {
-      var $this = $(this)
-
-      if ( typeof options == 'string' ) {
-        return $this.data('alert')[options]()
-      }
-
-      $(this).data('alert', new Alert( this ))
-
-    })
-  }
-
-  $(document).ready(function () {
-    new Alert($('body'), '.alert-message[data-alert] .close')
-  })
 
 }( window.jQuery || window.ender );
 
@@ -330,3 +225,4 @@ d.removeClass(e.asStripeClasses.join(" "))}c=[];var k;a=this.getElementsByTagNam
 g.aoColumnDefs[a].aTargets;i.isArray(m)||J(e,1,"aTargets must be an array of targets, not a "+typeof m);c=0;for(d=m.length;c<d;c++)if(typeof m[c]=="number"&&m[c]>=0){for(;e.aoColumns.length<=m[c];)F(e);x(e,m[c],g.aoColumnDefs[a])}else if(typeof m[c]=="number"&&m[c]<0)x(e,e.aoColumns.length+m[c],g.aoColumnDefs[a]);else if(typeof m[c]=="string"){b=0;for(f=e.aoColumns.length;b<f;b++)if(m[c]=="_all"||i(e.aoColumns[b].nTh).hasClass(m[c]))x(e,b,g.aoColumnDefs[a])}}if(typeof k!="undefined"){a=0;for(b=k.length;a<
 b;a++)x(e,a,k[a])}a=0;for(b=e.aaSorting.length;a<b;a++){if(e.aaSorting[a][0]>=e.aoColumns.length)e.aaSorting[a][0]=0;k=e.aoColumns[e.aaSorting[a][0]];if(typeof e.aaSorting[a][2]=="undefined")e.aaSorting[a][2]=0;if(typeof g.aaSorting=="undefined"&&typeof e.saved_aaSorting=="undefined")e.aaSorting[a][1]=k.asSorting[0];c=0;for(d=k.asSorting.length;c<d;c++)if(e.aaSorting[a][1]==k.asSorting[c]){e.aaSorting[a][2]=c;break}}V(e);a=i(this).children("thead");if(a.length===0){a=[p.createElement("thead")];this.appendChild(a[0])}e.nTHead=
 a[0];a=i(this).children("tbody");if(a.length===0){a=[p.createElement("tbody")];this.appendChild(a[0])}e.nTBody=a[0];a=i(this).children("tfoot");if(a.length>0){e.nTFoot=a[0];Y(e.aoFooter,e.nTFoot)}if(j)for(a=0;a<g.aaData.length;a++)v(e,g.aaData[a]);else $(e);e.aiDisplay=e.aiDisplayMaster.slice();e.bInitialised=true;h===false&&t(e)}})}})(jQuery,window,document);
+
