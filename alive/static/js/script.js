@@ -36,6 +36,20 @@ $(document).ready(function(){
             $("#search-results").fadeIn('slow');
         });
 
+    // Activate TableSorter for table of references.
+    $("#references-table").dataTable({
+      // Set default sorting to Year and Readers, descending.
+      "aaSorting": [[0,"desc"],[5,"desc"]],
+      // Full pagination.
+      "sPaginationType": "full_numbers",
+      // Show processing time.
+      "bProcessing": true,
+      // ThemeRoller.
+      //"bJQueryUI": true,
+      // Save the state of the table.
+      // "bStateSave": true,
+      });
+
     $('#reference-list select').change(function () {
         var myform = $(this).closest('form');
         myform.submit();

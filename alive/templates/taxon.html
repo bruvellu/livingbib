@@ -2,8 +2,19 @@
 
 {% block content %}
 
-<div class="grid_12 omega alpha" id="taxon-info">
+<div class="row" id="taxon-info">
+
+  <div class="span8" id="taxon-status">
     <h2>{{ taxon.name }}</h2>
+
+    <form action="." method="post" class="float-right">
+        {{ sortform.as_p }}
+        {% csrf_token %}
+    </form>
+
+  </div>
+
+  <div class="span8" id="query-status">
     {% if last_query %}
     <strong>Last updated:</strong> {{ last_query.timestamp }}<br>
     <strong>Results:</strong> {{ last_query.total_results }} ({{ fetch_ratio }}% fetched)<br>
@@ -14,23 +25,41 @@
     {% if fetching %}
     <span class="quiet">References are being fetched right now (it might take a while). Please refresh the page when you feel it is time.</span>
     {% endif %}
+  </div>
+
 </div>
 
-<div class="grid_9 alpha" id="reference-list">
-    <form action="." method="post" class="float-right">
-        {{ sortform.as_p }}
-        {% csrf_token %}
-    </form>
-
+<div id="reference-list">
     <h3>References</h3>
 
     {% if articles %}
 
+    <table id="references-table" class="zebra-striped">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Title</th>
+          <th>Authors</th>
+          <th>Publication</th>
+          <th>Type</th>
+          <th>Readers</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for article in articles %}
-        <div class="citation grid_9 alpha omega">
-            {% include 'citation.html' %}
-        </div>
+        <tr>
+          <td> {{ article.year }} </td>
+          <td> {{ article.title }} </td>
+          <td> {% for author in article.authors.all %}{{ author.surname }} {{ author.forename|first }}{% if not forloop.last %}, {% endif %}{% endfor %} </td>
+          <td>
+            <em>{{ article.publication_outlet }}</em>, {{ article.volume }}{% if article.issue %}({{ article.issue }}){% endif %}, {{ article.pages }}p{% if article.chapter %}, {{ article.chapter }}{% endif %}
+          </td>
+          <td> {{ article.type }} </td>
+          <td> {{ article.stats.readers }} </td>
+        </tr>
         {% endfor %}
+      </tbody>
+    </table>
 
     {% else %}
 
@@ -41,8 +70,10 @@
         {% endif %}
 
     {% endif %}
+
 </div>
 
+{% comment %}
 <div class="grid_3 omega" id="side-info">
     <div id="top-authors">
         <h3>Active authors</h3>
@@ -61,5 +92,6 @@
         </table>
     </div>
 </div>
+{% endcomment %}
 
 {% endblock %}
