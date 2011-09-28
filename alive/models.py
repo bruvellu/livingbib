@@ -7,6 +7,7 @@ from signals import *
 class Query(models.Model):
     '''Search term (=taxon name) sent to Mendeley API.'''
     total_results = models.PositiveIntegerField(_('number of results'), default=0)
+    #items_per_page = models.PositiveIntegerField(_('fetched items'), default=0)
     timestamp = models.DateTimeField(_('datetime of query'), auto_now_add=True)
     taxon = models.ForeignKey('Taxon', verbose_name=_('taxon'))
     delta = models.IntegerField(null=True, blank=True)
