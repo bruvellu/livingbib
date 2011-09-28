@@ -98,25 +98,30 @@ def taxon_page(request, slug):
         ubio = uBio()
         taxa = ubio.search_name(query)
         # Uppercase the first letter of the first word.
-        prename = query.split(' ')
-        prename[0] = prename[0].title()
-        name = ' '.join(prename)
+        words = query.split(' ')
+        words[0] = words[0].title()
+        name = ' '.join(words)
         # Scan query results to check if the slug (taxon) exists.
         # It must be an exact match to a known uBio entry to create the taxon.
         for entry in taxa:
             if entry['name'].lower() == query.lower():
                 taxon = Taxon(name=name)
                 taxon.save()
-        #XXX What happens when taxon object is not created?
+            else:
+                #XXX What happens when taxon object is not created?
+                pass
 
-    # Deal with articles.
+    # Get all related articles.
     articles = taxon.articles.all()
 
+    # Check if a query object was created recently.
     try:
         last_query = Query.objects.filter(taxon=taxon).order_by('-timestamp')[0]
     except:
         last_query = ''
 
+    # Top ten authors in number of publications with the taxon.
+    #TODO Explore possibilities.
     try:
         top_authors = articles.values('authors__forename', 'authors__surname').annotate(Count('authors')).order_by('-authors__count')[:10]
     except:
@@ -125,20 +130,17 @@ def taxon_page(request, slug):
     # Calls for reference fetching.
     fetching = False
     if not last_query:
-        fetch_references(taxon.name) # New taxon.
+        #fetch_references(taxon.name) # New taxon.
         fetching = True
     else:
         now = datetime.now()
-        if (now - last_query.timestamp) > timedelta(days=7):
-            fetch_references(taxon.name) # Checks again for updates.
+        if (now - last_query.timestamp) > timedelta(days=1):
+            #fetch_references(taxon.name) # Checks again for updates.
             fetching = True
 
+    # Calculate the ratio of existent and fetched articles.
     if last_query:
-        if last_query.total_results != 0:
-            fetch_ratio = articles.count() / float(last_query.total_results) * 100
-            fetch_ratio = round(fetch_ratio, 2)
-        else:
-            fetch_ratio = ''
+        fetch_ratio = get_ratio(articles.count(), last_query.total_results)
     else:
         fetch_ratio = ''
 
@@ -152,3 +154,12 @@ def taxon_page(request, slug):
         'form': form,
         })
     return render_to_response('taxon.html', variables)
+
+def get_ratio(articles_count, total_results):
+    '''Return the ratio between number of articles and total_results.'''
+    if total_results != 0:
+        fetch_ratio = articles_count / float(total_results) * 100
+        fetch_ratio = round(fetch_ratio, 2)
+    else:
+        fetch_ratio = ''
+    return fetch_ratio

@@ -28,16 +28,17 @@
   </div>
 
   <div class="span8" id="query-status">
-    <h3>Stats</h3>
+    <h3>Stats{% if fetching %}<span id="updating"><small> updating...</small></span></span>{% endif %}</h3>
     <p>
     <span class="label">Results</span>
     <span id="total-results">
       {% if not last_query %}
       None, yet.
       {% else %}
-      {{ last_query.total_results }}{% if fetch_ratio %} ({{ fetch_ratio }}% fetched){% endif %}
+      {{ last_query.total_results }}
       {% endif %}
     </span>
+    {% if fetch_ratio %} (<span id="fetch-ratio">{{ fetch_ratio }}</span>% fetched){% endif %}
     <span class="label">Last updated</span>
     <span id="last-updated">
       {% if not last_query %}
@@ -48,11 +49,10 @@
     </span>
     </p>
 
-    {% if fetching %}
-    <div class="alert-message warning fade in" data-alert="alert">
-      <p>References are being fetched right now (it might take a while).</p>
+    <div id="fetching-notice" class="alert-message warning fade in" data-alert="alert">
+      <p><span id="yellow-loading"></span> <span id="being-fetched"></span> references are being fetched right now (it might take a while).</p>
     </div>
-    {% endif %}
+
   </div>
 
 </div>
@@ -121,5 +121,15 @@
     </div>
 </div>
 {% endcomment %}
+
+{% if fetching %}
+<script type="text/javascript" charset="utf-8">
+  {% comment %}
+  TODO Pass the items_per_page from last_query to incrementally increase the number of articles fetched.
+  Dajaxice.livingbib.alive.search_references(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'items_per_page': '{{ last_query.items_per_page }}'})
+  {% endcomment %}
+  Dajaxice.livingbib.alive.search_references(Dajax.process, {'taxon_id': '{{ taxon.id }}'})
+</script>
+{% endif %}
 
 {% endblock %}

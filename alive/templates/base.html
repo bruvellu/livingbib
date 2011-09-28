@@ -1,6 +1,4 @@
 {% load dajaxice_templatetags %}
-
-
 <!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
@@ -78,7 +76,7 @@
 
           <li>
           <form {% if request.META.PATH_INFO == '/search/' %}class="ajax"{% endif %} id="search-form" method="get" action="/search/">
-            <span id="loading"></span>
+            <span id="dark-loading"></span>
             <button class="btn" type="submit">Search</button>
             {{ form.query }}
           </form>

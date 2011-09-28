@@ -29,6 +29,15 @@ def get_categories():
                 subcategory.save()
     print 'Done.'
 
+def search(taxon_name, items=50):
+    '''Queries Mendeley database for a taxon name.'''
+    # Search Mendeley.
+    #log 'Searching for %s...' % taxon_name
+    # handle connection problems or aborts?
+    results = mendeley.search(taxon_name, items=items)
+
+    return results
+
 def fetch(taxon_name):
     '''Queries Mendeley database for a taxon name.'''
     #TODO Urgently create logging, tests and functions here to avoid issues.

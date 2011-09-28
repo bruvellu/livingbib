@@ -6,10 +6,27 @@
  *  - Define colors for sorted columns.
  */
 
-#loading {
-    background:url("/static/images/loader.gif") no-repeat scroll 0 0 transparent;
+#dark-loading, #light-loading, #yellow-loading {
     margin:0 10px;
     padding:0 8px;
+    display:none;
+}
+#dark-loading {
+    background:url("/static/images/loader-dark.gif") no-repeat scroll 0 0 transparent;
+}
+
+#light-loading {
+    background:url("/static/images/loader-dot.gif") no-repeat scroll 0 0 transparent;
+    /*
+    background:url("/static/images/loader-light.gif") no-repeat scroll 0 0 transparent;
+    */
+}
+
+#yellow-loading {
+    background:url("/static/images/loader-yellow.gif") no-repeat scroll 0 0 transparent;
+}
+
+#fetching-notice {
     display:none;
 }
 
