@@ -2,18 +2,20 @@
 
 {% block content %}
 
-<h2>
+<h1>
   {{ taxon.name }}
 
-  {% with logged=user.is_authenticated %}
-  <form class="ajax pull-right" id="follow-form" method="post" action=".">
-    {% if not logged %}<small>Sign in to </small>{% endif %}<button class="btn {% if not logged %}disabled{% else %}success{% endif %}" type="submit">Follow</button>
-    <input name="follow" value="{{ taxon.id }}" type="hidden" id="rand" onclick="Dajaxice.livingbib.alive.follow(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'user_id': '{{ user.id }}'})">
-    {% csrf_token %}
-  </form>
-  {% endwith %}
+  {% if user.is_authenticated %}
 
-</h2>
+    <input class="pull-right btn {% if user.id in user_list %}success{% else %}info{% endif %}" name="follow" value="{% if user.id in user_list %}Following{% else %}Follow{% endif %}" type="button" id="follow-button" onclick="Dajaxice.livingbib.alive.toggle_follow(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'user_id': '{{ user.id }}'})">
+
+  {% else %}
+
+  <button class="pull-right btn disabled">Sign in to Follow</button>
+
+  {% endif %}
+
+</h1>
 
 <div class="row" id="taxon-info">
 
