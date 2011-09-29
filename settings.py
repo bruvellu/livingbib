@@ -152,10 +152,26 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '[%(levelname)s] %(asctime)s @ %(module)s %(funcName)s (l%(lineno)d): %(message)s'
+            }
+        },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'default'
+        },
+        'log_files': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(PROJECT_DIR, 'logs/living.log'),
+            'formatter': 'default'
         }
     },
     'loggers': {
@@ -163,6 +179,16 @@ LOGGING = {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'central': {
+            'handlers': ['log_files', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'dajaxice': {
+            'handlers': ['log_files', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     }
 }
