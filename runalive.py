@@ -230,7 +230,10 @@ def details(uuid, rank, taxon_id):
         print 'Adding to taxon...'
         finished = attach_to_taxon(article, taxon_id)
 
-        return finished
+        if finished:
+            return article
+        else:
+            return None
         print 'The end.'
 
 def attach_to_taxon(article, taxon_id):

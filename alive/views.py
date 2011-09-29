@@ -128,7 +128,7 @@ def taxon_page(request, slug):
         top_authors = []
 
     # Calls for reference fetching.
-    fetching = True
+    fetching = False
     if not last_query:
         #fetch_references(taxon.name) # New taxon.
         fetching = True
@@ -157,6 +157,7 @@ def taxon_page(request, slug):
 
 def get_ratio(articles_count, total_results):
     '''Return the ratio between number of articles and total_results.'''
+    #FIXME Database can have more articles than what Mendeley has...
     if total_results != 0:
         fetch_ratio = articles_count / float(total_results) * 100
         fetch_ratio = round(fetch_ratio, 2)
