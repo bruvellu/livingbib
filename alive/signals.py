@@ -8,6 +8,11 @@ def slug_pre_save(signal, instance, sender, **kwargs):
     slug = slugify(instance.name)
     instance.slug = slug
 
+def slug_username(signal, instance, sender, **kwargs):
+    '''Create slug before saving.'''
+    slug = slugify(instance.user.username)
+    instance.slug = slug
+
 def update_delta(signal, instance, sender, **kwargs):
     '''Update variation of total results for taxon query.'''
     try:
@@ -21,3 +26,8 @@ def update_results(signal, instance, sender, **kwargs):
     instance.taxon.total_results = instance.total_results
     instance.taxon.delta = instance.delta
     instance.taxon.save()
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+

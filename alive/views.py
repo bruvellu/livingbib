@@ -144,6 +144,8 @@ def taxon_page(request, slug):
     else:
         fetch_ratio = ''
 
+    user_list = taxon.taxon_users.values_list('id', flat=True)
+
     variables = RequestContext(request, {
         'taxon': taxon,
         'last_query': last_query,
@@ -152,8 +154,31 @@ def taxon_page(request, slug):
         'fetching': fetching,
         'fetch_ratio': fetch_ratio,
         'form': form,
+        'user_list': user_list,
         })
     return render_to_response('taxon.html', variables)
+
+def user_page(request, slug):
+    '''User page.'''
+    # Search form.
+    form = SearchForm()
+
+    # Get user.
+    user_profile = get_object_or_404(UserProfile, slug=slug)
+
+    # Get username.
+    username = user_profile.user.username
+
+    # Get followed taxa.
+    taxa = user_profile.taxa.all()
+
+    variables = RequestContext(request, {
+        'user_profile': user_profile,
+        'username': username,
+        'taxa': taxa,
+        'form': form,
+        })
+    return render_to_response('user.html', variables)
 
 def get_ratio(articles_count, total_results):
     '''Return the ratio between number of articles and total_results.'''

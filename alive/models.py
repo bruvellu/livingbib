@@ -1,7 +1,27 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from signals import *
+
+
+class UserProfile(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User)
+
+    # Other fields.
+    slug = models.SlugField(_('slug'), max_length=256, blank=True)
+    taxa = models.ManyToManyField('Taxon', null=True, blank=True, 
+            verbose_name=_('taxa'), related_name='taxon_users')
+    articles = models.ManyToManyField('Article', null=True, blank=True, 
+            verbose_name=_('articles'), related_name='article_users')
+
+    def __unicode__(self):
+        return self.slug
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('user_url', [self.slug])
 
 
 class Query(models.Model):
@@ -25,9 +45,9 @@ class Taxon(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, 
             related_name='children', verbose_name=_('parent'))
     queries = models.ManyToManyField(Query, null=True, blank=True, 
-            verbose_name=_('queries'), related_name='taxa')
+            verbose_name=_('queries'), related_name='query_taxa')
     articles = models.ManyToManyField('Article', null=True, blank=True, 
-            verbose_name=_('articles'), related_name='taxa')
+            verbose_name=_('articles'), related_name='article_taxa')
 
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.rank)
@@ -250,5 +270,7 @@ class Identifier(models.Model):
 
 # Signals calls.
 signals.pre_save.connect(slug_pre_save, sender=Taxon)
+signals.pre_save.connect(slug_username, sender=UserProfile)
 signals.pre_save.connect(update_delta, sender=Query)
 signals.post_save.connect(update_results, sender=Query)
+signals.post_save.connect(create_user_profile, sender=User)

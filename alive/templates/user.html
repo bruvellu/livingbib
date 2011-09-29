@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1> {{ username }} </h1>
+
+<div class="row" id="user-content">
+
+  <div class="span4" id="user-info">
+    <h2>Following</h2>
+
+    {% if taxa %}
+    <ul>
+      {% for taxon in taxa %}
+      <li>
+      <a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ username }} is not following any taxon.
+    {% endif %}
+
+    <h2>Who</h2>
+    {{ user_profile.user.first_name }}
+    {{ user_profile.user.last_name }}
+  </div>
+
+  <div class="span12" id="user-stream">
+    [STREAM]
+  </div>
+
+</div>
+
+{% endblock %}

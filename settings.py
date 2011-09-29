@@ -119,6 +119,9 @@ ROOT_URLCONF = 'livingbib.urls'
 # Dajaxice requirement.
 DAJAXICE_MEDIA_PREFIX = 'dajaxice'
 
+# User profiles.
+AUTH_PROFILE_MODULE = 'alive.UserProfile'
+
 TEMPLATE_DIRS = (
         os.path.join(PROJECT_DIR, 'templates'),
 )
@@ -138,7 +141,7 @@ INSTALLED_APPS = (
     'djutils',
     'dajaxice',
     'dajax',
-    #'south',
+    'south',
     #'mptt',
     #'debug_toolbar',
     #'sorl.thumbnail',
