@@ -128,7 +128,7 @@ def taxon_page(request, slug):
         top_authors = []
 
     # Calls for reference fetching.
-    fetching = False
+    fetching = True
     if not last_query:
         #fetch_references(taxon.name) # New taxon.
         fetching = True

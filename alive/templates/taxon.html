@@ -28,7 +28,7 @@
   </div>
 
   <div class="span8" id="query-status">
-    <h3>Stats{% if fetching %}<span id="updating"><small> updating...</small></span></span>{% endif %}</h3>
+    <h3>Stats{% if fetching %}<span id="updating"><small> updating... please wait.</small></span></span>{% endif %}</h3>
     <p>
     <span class="label">Results</span>
     <span id="total-results">
@@ -52,6 +52,7 @@
     <div id="fetching-notice" class="alert-message warning fade in" data-alert="alert">
       <p><span id="yellow-loading"></span> <span id="being-fetched"></span> references are being fetched right now (it might take a while).</p>
     </div>
+    <div id="fetching-status" class="muted"></div>
 
   </div>
 

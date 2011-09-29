@@ -26,7 +26,7 @@
     background:url("/static/images/loader-yellow.gif") no-repeat scroll 0 0 transparent;
 }
 
-#fetching-notice {
+#fetching-notice, #fetching-status {
     display:none;
 }
 

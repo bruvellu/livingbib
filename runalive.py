@@ -22,12 +22,14 @@ def get_categories():
             category.save()
         subcategories = mendeley.subcategories(category.mendeley_id)
         for item in subcategories:
-            subcategory, new = Category.objects.get_or_create(name=item['name'], 
-                    slug=item['slug'], mendeley_id=item['id'], parent=category, 
-                    issub=True)
+            subcategory, new = Category.objects.get_or_create(name=item['name'], slug=item['slug'], mendeley_id=item['id'], parent=category, issub=True)
             if new:
                 subcategory.save()
     print 'Done.'
+
+def fetch(taxon_name):
+    '''Temporary dummy.'''
+    pass
 
 def search(taxon_name, items=50):
     '''Queries Mendeley database for a taxon name.'''
@@ -38,224 +40,207 @@ def search(taxon_name, items=50):
 
     return results
 
-def fetch(taxon_name):
+def details(uuid, rank, taxon_id):
     '''Queries Mendeley database for a taxon name.'''
-    #TODO Urgently create logging, tests and functions here to avoid issues.
-    # Create/instantiate taxon.
-    taxon, new = Taxon.objects.get_or_create(name=taxon_name)
-    if new:
-        taxon.save()
+    details = mendeley.details(uuid)
 
-    # Search Mendeley.
-    print 'Searching for %s...' % taxon_name
-    results = mendeley.search(taxon_name, items=50)
+    # Make sure an empty detail does not break the script.
+    if details:
+        # Store metadata in an object.
+        metadata = {}
+        m2mdata = {}
+        identifiers = {}
 
-    # Create query.
-    print 'Creating query...'
-    if not results['total_results']:
-        results['total_results'] = 0
-    query = Query(total_results=results['total_results'], taxon=taxon)
-    query.save()
+        # Loop over document details.
+        for k, v in details.iteritems():
 
-    if results['documents']:
-        print 'Getting details...'
-        for rank, doc in enumerate(results['documents'], start=1):
-            try:
-                article = Article.objects.get(uuid=doc['uuid'])
-                article.rank = rank
-                article.save()
-                print 'Article already in the database. Only saving new rank.'
-            except:
-                details = mendeley.details(doc['uuid'])
+            ## ForeignKey
+            # Article type.
+            if k == 'type':
+                type, new = ArticleType.objects.get_or_create(name=v)
+                if new:
+                    type.save()
+                metadata['type'] = type
 
-                #XXX Make sure an empty detail does not break the script.
-                if details:
-                    # Store metadata in an object.
-                    metadata = {}
-                    m2mdata = {}
-                    identifiers = {}
+            # Publication outlet.
+            elif k == 'publication_outlet':
+                journal, new = Journal.objects.get_or_create(name=v)
+                if new:
+                    journal.save()
+                metadata['publication_outlet'] = journal
 
-                    # Loop over document details.
-                    for k, v in details.iteritems():
+            # Publisher.
+            elif k == 'publisher':
+                publisher, new = Publisher.objects.get_or_create(name=v)
+                if new:
+                    publisher.save()
+                metadata['publisher'] = publisher
 
-                        ## ForeignKey
-                        # Article type.
-                        if k == 'type':
-                            type, new = ArticleType.objects.get_or_create(name=v)
-                            if new:
-                                type.save()
-                            metadata['type'] = type
+            # Stats.
+            elif k == 'stats':
+                stats = Stats(readers=v['readers'])
+                stats.save()
 
-                        # Publication outlet.
-                        elif k == 'publication_outlet':
-                            journal, new = Journal.objects.get_or_create(name=v)
-                            if new:
-                                journal.save()
-                            metadata['publication_outlet'] = journal
+                # Country.
+                for item in v['country']:
+                    country, new = Country.objects.get_or_create(name=item['name'])
+                    if new:
+                        country.save()
+                    stats_country = StatsCountry(name=country, value=item['value'])
+                    stats_country.save()
+                    stats.countries.add(stats_country)
 
-                        # Publisher.
-                        elif k == 'publisher':
-                            publisher, new = Publisher.objects.get_or_create(name=v)
-                            if new:
-                                publisher.save()
-                            metadata['publisher'] = publisher
+                # Discipline.
+                for item in v['discipline']:
+                    discipline, new = Discipline.objects.get_or_create(name=item['name'])
+                    if new:
+                        discipline.save()
+                    stats_discipline = StatsDiscipline(name=discipline, 
+                            value=item['value'])
+                    stats_discipline.save()
+                    stats.disciplines.add(stats_discipline)
 
-                        # Stats.
-                        elif k == 'stats':
-                            stats = Stats(readers=v['readers'])
-                            stats.save()
+                # Status.
+                for item in v['status']:
+                    status, new = Status.objects.get_or_create(name=item['name'])
+                    if new:
+                        status.save()
+                    stats_status = StatsStatus(name=status, value=item['value'])
+                    stats_status.save()
+                    stats.statuses.add(stats_status)
 
-                            # Country.
-                            for item in v['country']:
-                                country, new = Country.objects.get_or_create(name=item['name'])
-                                if new:
-                                    country.save()
-                                stats_country = StatsCountry(name=country, value=item['value'])
-                                stats_country.save()
-                                stats.countries.add(stats_country)
+                metadata['stats'] = stats
 
-                            # Discipline.
-                            for item in v['discipline']:
-                                discipline, new = Discipline.objects.get_or_create(name=item['name'])
-                                if new:
-                                    discipline.save()
-                                stats_discipline = StatsDiscipline(name=discipline, 
-                                        value=item['value'])
-                                stats_discipline.save()
-                                stats.disciplines.add(stats_discipline)
+            # Many2Many
+            # Authors.
+            elif k == 'authors':
+                m2mdata['authors'] = []
+                for item in v:
+                    author, new = Author.objects.get_or_create(
+                            forename=item['forename'], surname=item['surname'])
+                    if new:
+                        author.save()
+                    m2mdata['authors'].append(author)
 
-                            # Status.
-                            for item in v['status']:
-                                status, new = Status.objects.get_or_create(name=item['name'])
-                                if new:
-                                    status.save()
-                                stats_status = StatsStatus(name=status, value=item['value'])
-                                stats_status.save()
-                                stats.statuses.add(stats_status)
+            # Editors.
+            elif k == 'editors':
+                m2mdata['editors'] = []
+                for item in v:
+                    editor, new = Editor.objects.get_or_create(
+                            forename=item['forename'], surname=item['surname'])
+                    if new:
+                        editor.save()
+                    m2mdata['editors'].append(editor)
 
-                            metadata['stats'] = stats
+            # Categories.
+            #XXX Create categories beforehand.
+            elif k == 'categories':
+                m2mdata['categories'] = []
+                for item in v:
+                    category = Category.objects.get(mendeley_id=item, issub=True)
+                    m2mdata['categories'].append(category)
 
-                        # Many2Many
-                        # Authors.
-                        elif k == 'authors':
-                            m2mdata['authors'] = []
-                            for item in v:
-                                author, new = Author.objects.get_or_create(
-                                        forename=item['forename'], surname=item['surname'])
-                                if new:
-                                    author.save()
-                                m2mdata['authors'].append(author)
+            # Groups.
+            #TODO Create an attribute groups for client...
+            elif k == 'groups':
+                m2mdata['groups'] = []
+                for item in v:
+                    #FIXME Transform date in datetime object.
+                    group, new = Group.objects.get_or_create(
+                            group_id=item['group_id'])
+                    if new:
+                        group.profile_id = item['profile_id']
+                        group.save()
+                    m2mdata['groups'].append(group)
 
-                        # Editors.
-                        elif k == 'editors':
-                            m2mdata['editors'] = []
-                            for item in v:
-                                editor, new = Editor.objects.get_or_create(
-                                        forename=item['forename'], surname=item['surname'])
-                                if new:
-                                    editor.save()
-                                m2mdata['editors'].append(editor)
+            # Keywords.
+            elif k == 'keywords':
+                m2mdata['keywords'] = []
+                for item in v:
+                    keyword, new = Keyword.objects.get_or_create(name=item)
+                    if new:
+                        keyword.save()
+                    m2mdata['keywords'].append(keyword)
 
-                        # Categories.
-                        #XXX Create categories beforehand.
-                        elif k == 'categories':
-                            m2mdata['categories'] = []
-                            for item in v:
-                                category = Category.objects.get(mendeley_id=item, issub=True)
-                                m2mdata['categories'].append(category)
+            # Tags.
+            elif k == 'tags':
+                m2mdata['tags'] = []
+                for item in v:
+                    tag, new = Tag.objects.get_or_create(name=item)
+                    if new:
+                        tag.save()
+                    m2mdata['tags'].append(tag)
 
-                        # Groups.
-                        #TODO Create an attribute groups for client...
-                        elif k == 'groups':
-                            m2mdata['groups'] = []
-                            for item in v:
-                                #FIXME Transform date in datetime object.
-                                group, new = Group.objects.get_or_create(
-                                        group_id=item['group_id'])
-                                if new:
-                                    group.profile_id = item['profile_id']
-                                    group.save()
-                                m2mdata['groups'].append(group)
+            elif k == 'identifiers':
+                identifiers = v
 
-                        # Keywords.
-                        elif k == 'keywords':
-                            m2mdata['keywords'] = []
-                            for item in v:
-                                keyword, new = Keyword.objects.get_or_create(name=item)
-                                if new:
-                                    keyword.save()
-                                m2mdata['keywords'].append(keyword)
+            else:
+                # Assert keywords are strings.
+                metadata[str(k)] = v
+                #uuid=details['uuid'],
+                #title=details['title'],
+                #abstract=details['abstract'],
+                #year=details['year'],
+                #volume=details['volume'],
+                #issue=details['issue'],
+                #pages=details['pages'],
+                #website=details['website'],
+                #mendeley_url=details['mendeley_url'],
+                #public_file_hash=details['public_file_hash'],
+                #oa_journal=details['oa_journal']
 
-                        # Tags.
-                        elif k == 'tags':
-                            m2mdata['tags'] = []
-                            for item in v:
-                                tag, new = Tag.objects.get_or_create(name=item)
-                                if new:
-                                    tag.save()
-                                m2mdata['tags'].append(tag)
+        print 'Creating article...'
+        #FIXME Handle "temporarily unavailable" error from Mendeley
+        # {"error":"Mendeley is temporarily unavailable. Please try again later."}
+        article = Article(**metadata)
+        article.rank = rank
 
-                        elif k == 'identifiers':
-                            identifiers = v
+        print 'Saving article...'
+        article.save()
+        print 'Saved!'
 
-                        else:
-                            # Assert keywords are strings.
-                            metadata[str(k)] = v
-                            #uuid=details['uuid'],
-                            #title=details['title'],
-                            #abstract=details['abstract'],
-                            #year=details['year'],
-                            #volume=details['volume'],
-                            #issue=details['issue'],
-                            #pages=details['pages'],
-                            #website=details['website'],
-                            #mendeley_url=details['mendeley_url'],
-                            #public_file_hash=details['public_file_hash'],
-                            #oa_journal=details['oa_journal']
+        print 'Adding Many2Many fields...'
+        for k, v in m2mdata.iteritems():
+            if k == 'authors':
+                for item in v:
+                    article.authors.add(item)
+            elif k == 'editors':
+                for item in v:
+                    article.editors.add(item)
+            elif k == 'categories':
+                for item in v:
+                    article.categories.add(item)
+            elif k == 'groups':
+                for item in v:
+                    article.groups.add(item)
+            elif k == 'keywords':
+                for item in v:
+                    article.keywords.add(item)
+            elif k == 'tags':
+                for item in v:
+                    article.tags.add(item)
 
-                    print 'Creating article...'
-                    #FIXME Handle "temporarily unavailable" error from Mendeley
-                    # {"error":"Mendeley is temporarily unavailable. Please try again later."}
-                    article = Article(**metadata)
-                    article.rank = rank
+        if identifiers:
+            print 'Adding identifiers...'
+            for k, v in identifiers.iteritems():
+                identifier, new = Identifier.objects.get_or_create(type=k, value=v, article=article)
+                if new:
+                    identifier.save()
 
-                    print 'Saving article...'
-                    article.save()
-                    print 'Saved!'
+        print 'Adding to taxon...'
+        finished = attach_to_taxon(article, taxon_id)
 
-                    print 'Adding Many2Many fields...'
-                    for k, v in m2mdata.iteritems():
-                        if k == 'authors':
-                            for item in v:
-                                article.authors.add(item)
-                        elif k == 'editors':
-                            for item in v:
-                                article.editors.add(item)
-                        elif k == 'categories':
-                            for item in v:
-                                article.categories.add(item)
-                        elif k == 'groups':
-                            for item in v:
-                                article.groups.add(item)
-                        elif k == 'keywords':
-                            for item in v:
-                                article.keywords.add(item)
-                        elif k == 'tags':
-                            for item in v:
-                                article.tags.add(item)
+        return finished
+        print 'The end.'
 
-                    if identifiers:
-                        print 'Adding identifiers...'
-                        for k, v in identifiers.iteritems():
-                            identifier, new = Identifier.objects.get_or_create(type=k, value=v, 
-                                    article=article)
-                            if new:
-                                identifier.save()
-
-                    print 'Adding to taxon...'
-                    taxon.articles.add(article)
-
-                    print 'The end.'
+def attach_to_taxon(article, taxon_id):
+    '''Attach reference to taxon.'''
+    try:
+        taxon = Taxon.objects.get(id=taxon_id)
+        taxon.articles.add(article)
+        return True
+    except:
+        return False
 
 
 # EXEMPLO DE DETAILS:
