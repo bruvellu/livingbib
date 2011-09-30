@@ -126,7 +126,7 @@ def taxon_page(request, slug):
     if last_query:
         fetch_ratio = get_ratio(articles.count(), last_query.total_results)
     else:
-        fetch_ratio = ''
+        fetch_ratio = 0
 
     user_list = taxon.taxon_users.values_list('id', flat=True)
 
@@ -172,7 +172,7 @@ def get_ratio(articles_count, total_results):
         fetch_ratio = articles_count / float(total_results) * 100
         fetch_ratio = round(fetch_ratio, 2)
     else:
-        fetch_ratio = ''
+        fetch_ratio = 0
     return fetch_ratio
 
 def get_yearly(articles):

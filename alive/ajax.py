@@ -82,6 +82,9 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         #dajax.assign('#being-fetched', 'innerHTML', 'ERROR')
         return dajax.json()
 
+    # Recalculate the fetch ratio.
+    fetch_ratio = get_ratio(articles_count, total_results)
+
     # Captura o primeiro artigo da lista.
     try:
         uuid = uuids.pop(0)
@@ -89,6 +92,7 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         dajax.script('$("#fetching-status").fadeOut();')
         dajax.remove_css_class('#fetching-notice', 'warning')
         dajax.add_css_class('#fetching-notice', 'success')
+        dajax.assign('#fetch-ratio', 'innerHTML', fetch_ratio)
         if new == 0:
             dajax.assign('#fetching-notice p', 'innerHTML', 'Success! Database is up-to-date, no new references.')
         else:
@@ -113,9 +117,6 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         title = article.title
     except:
         title = 'Empty title...'
-
-    # Recalculate the fetch ratio.
-    fetch_ratio = get_ratio(articles_count, total_results)
 
     # Create row #TODO create separate function.
     if not duplicate and article:

@@ -40,7 +40,7 @@
       {{ last_query.total_results }}
       {% endif %}
     </span>
-    {% if fetch_ratio %} (<span id="fetch-ratio">{{ fetch_ratio }}</span>% fetched){% endif %}
+    (<span id="fetch-ratio">{{ fetch_ratio }}</span>% fetched)
     <span class="label">Last updated</span>
     <span id="last-updated">
       {% if not last_query %}
