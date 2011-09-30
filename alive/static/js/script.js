@@ -2,43 +2,26 @@
 
 */
 
-function newSearch(redirect) {
-  Dajaxice.livingbib.alive.search_taxon(Dajax.process, {'query': $("#search_query").val(), 'redirect': redirect})
+function searchTaxon(redirect) {
+  $("#dark-loading").fadeIn();
+  $("#search-results").fadeOut();
+  var query = $("#search_query").val()
+  Dajaxice.livingbib.alive.search_taxon(Dajax.process, {'query': query, 'redirect': redirect})
+  return false
 }
 
-function search_submit() {
-    $("#search-results").fadeOut();
-    var query = $("#id_query").val();
-    $("#search-results").load(
-            "/search/?query=" + encodeURIComponent(query)
-            );
-    // Padronize to lowercase
-    var queryLower = query.toLowerCase()
-    // Update browser url display.
-    // https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history
-    var stateObj = { uquery: query };
-    history.pushState(stateObj, query, "?query=" + encodeURIComponent(queryLower).replace("%20", "+"));
-    return false;
+function endSearch(query) {
+  // Update browser url display.
+  // https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history
+  var stateObj = { uquery: query };
+  history.pushState(stateObj, query, "?query=" + encodeURIComponent(query).replace("%20", "+"));
+  $("#search-results").fadeIn();
+  $("#dark-loading").fadeOut();
 }
+
 
 // Document ready functions.
 $(document).ready(function(){
-
-    // Anexa a submissão do formulário com a função.
-    var searchForm = $("#search-form")
-    if ( searchForm.hasClass('ajax') == true ) {
-      searchForm.submit(search_submit);
-      }
-
-    // Ativa o loading quando existe um Ajax call.
-    $('#loading').hide()
-        .ajaxStart(function() {
-            $(this).fadeIn();
-        })
-        .ajaxStop(function() {
-            $(this).fadeOut();
-            $("#search-results").fadeIn('slow');
-        });
 
     // Activate TableSorter for table of references.
     $("#references-table").dataTable({

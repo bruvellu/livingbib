@@ -41,35 +41,13 @@ def search_page(request):
     show = False
 
     if 'query' in request.GET:
-        # Remove white spaces.
-        query = request.GET['query'].strip()
+        query = clean_query(request.GET['query'])
         if query:
-            # Instantiate search form.
-            form = SearchForm({'query': query})
-
-            # Standardize queries to lowercase.
-            query = query.lower()
-
             # Flag to show results in the template.
             show = True
 
             # Get taxa from pickled objects or via uBio.
-            try:
-                # Queries are cached as pickled objects.
-                taxapic = open('queries/' + query, 'rb')
-                taxa = pickle.load(taxapic)
-                taxapic.close()
-            except:
-                #TODO Handle connection problems, better at ubio.py.
-                ubio = uBio()
-                taxa = ubio.search_name(query)
-                # Save query as pickled object.
-                taxapic = open('queries/' + query, 'wb')
-                pickle.dump(taxa, taxapic)
-                taxapic.close()
-        #TODO If query is empty remove request.GET.
-        #else:
-            # Maybe do this with js.
+            taxa = query_handler(query)
 
     variables = RequestContext(request, {
         'form': form,
@@ -235,3 +213,26 @@ def get_yearly(articles):
 
     return data
 
+def clean_query(query):
+    '''Remove exceding white space and force lowercase.'''
+    cleaned_query = query.strip().lower()
+    return cleaned_query
+
+def query_handler(query):
+    '''Manage query and return taxa from uBio.'''
+    # Get taxa from pickled objects or via uBio.
+    try:
+        # Queries are cached as pickled objects.
+        taxapic = open('queries/' + query, 'rb')
+        taxa = pickle.load(taxapic)
+        taxapic.close()
+    except:
+        #TODO Handle connection problems, better at ubio.py.
+        ubio = uBio()
+        taxa = ubio.search_name(query)
+
+        # Save query as pickled object.
+        taxapic = open('queries/' + query, 'wb')
+        pickle.dump(taxa, taxapic)
+        taxapic.close()
+    return taxa

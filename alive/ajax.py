@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from alive.models import Article, Query, Taxon, UserProfile
-from alive.views import get_ratio, get_yearly
+from alive.views import get_ratio, get_yearly, clean_query, query_handler
 from dajax.core import Dajax
 from dajaxice.decorators import dajaxice_register
 from django.template.defaultfilters import date
+from django.template.loader import render_to_string
 from django.conf.global_settings import DATETIME_FORMAT
 from runalive import details, search
 
@@ -192,14 +193,17 @@ def search_taxon(request, query, redirect):
     dajax = Dajax()
 
     # Clean query.
-    query = query.strip()
-    query = query.lower()
+    query = clean_query(query)
 
     if query:
         if redirect:
             dajax.redirect('/search/?query=%s' % query)
         else:
-            dajax.assign('#search_query', 'value', 'MAGIC HAPPENS')
+            taxa = query_handler(query)
+            n = len(taxa)
+            render = render_to_string('search_results.html', {'query': query, 'taxa': taxa, 'n': n})
+            dajax.assign('#search-results', 'innerHTML', render)
+            dajax.script('endSearch("%s");' % query)
     else:
         dajax.redirect('/search/')
 

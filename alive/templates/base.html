@@ -74,7 +74,7 @@
 
           <div class="pull-right" id="search-form">
             <span id="dark-loading"></span>
-            <button class="btn" name="query" type="submit" id="search-button" onclick="newSearch({% if request.META.PATH_INFO == '/search/' %}false{% else %}true{% endif %})">Search</button>
+            <button class="btn" name="query" type="submit" id="search-button" onclick="searchTaxon({% if request.META.PATH_INFO == '/search/' %}false{% else %}true{% endif %})">Search</button>
             <input type="text" id="search_query" class="input-large" value="{{ query }}" placeholder="a scientific or common name" name="query">
           </div>
 
