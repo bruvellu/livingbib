@@ -21,7 +21,7 @@ def home_page(request):
     # Search form.
     form = SearchForm()
     taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
-    queries = Query.objects.select_related().order_by('-timestamp')[:50]
+    queries = Query.objects.select_related().order_by('-timestamp')
     variables = RequestContext(request, {
         'taxa': taxa,
         'form': form,
@@ -128,7 +128,10 @@ def taxon_page(request, slug):
         top_authors = []
 
     # Number of publications per year.
-    data = get_yearly(articles)
+    if articles:
+        data = get_yearly(articles)
+    else:
+        data = {}
 
     # Calls for reference fetching.
     fetching = False

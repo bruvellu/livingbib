@@ -101,7 +101,28 @@
         {% if taxon.total_results == 0 %}
         Sorry, we could not find any articles about <strong>{{ taxon.name }}</strong>.
         {% else %}
-        Fetching articles for <strong>{{ taxon.name }}</strong>... Please come back soon.
+        <table id="references-table" class="zebra-striped">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Title</th>
+              <th>Authors</th>
+              <th>Publication</th>
+              <th>Type</th>
+              <th>Readers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+          </tbody>
+        </table>
         {% endif %}
 
     {% endif %}
