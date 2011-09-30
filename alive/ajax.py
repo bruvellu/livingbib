@@ -155,6 +155,7 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         dajax.assign('#fetching-status', 'innerHTML', '<span class="label success">new</span> %s' % title)
     dajax.assign('#fetch-ratio', 'innerHTML', fetch_ratio)
     dajax.assign('#being-fetched', 'innerHTML', items)
+    dajax.assign('.spark', 'title', "Number of references per year from %d to %d" % (data['min'], data['max']))
     dajax.script('$(".spark").sparkline(%s, {"width": "460px"});' % data['values'])
     dajax.script('Dajaxice.livingbib.alive.get_details(Dajax.process, {"uuids": "%s", "articles_count": "%d", "total_results": "%d", "rank": "%d", "new": "%d", "taxon_id": "%s"});' % (uuids, articles_count, total_results, rank, new, taxon_id))
     return dajax.json()
