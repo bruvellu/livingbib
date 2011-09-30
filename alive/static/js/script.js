@@ -17,6 +17,13 @@ function searchTaxon(redirect) {
 }
 
 function endSearch(query) {
+  // Activate TableSorter for table of references.
+  $("#results-table").dataTable({
+    // Full pagination.
+    "sPaginationType": "full_numbers",
+    // Show processing time.
+    "bProcessing": true,
+    });
   // Update browser url display.
   // https://developer.mozilla.org/en/DOM/Manipulating_the_browser_history
   var stateObj = { uquery: query };
@@ -54,10 +61,16 @@ $(document).ready(function(){
       "sPaginationType": "full_numbers",
       // Show processing time.
       "bProcessing": true,
-      // ThemeRoller.
-      //"bJQueryUI": true,
       // Save the state of the table.
       // "bStateSave": true,
+      });
+
+    // Activate TableSorter for table of references.
+    $("#results-table").dataTable({
+      // Full pagination.
+      "sPaginationType": "full_numbers",
+      // Show processing time.
+      "bProcessing": true,
       });
 
 });

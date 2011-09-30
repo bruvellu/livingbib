@@ -38,18 +38,25 @@
 }
 
 #references-table_length label,
-#references-table_filter label {
+#references-table_filter label,
+#results-table_length label,
+#results-table_filter label {
   float:none;
 }
 
 #references-table_length,
 #references-table_filter,
 #references-table_info,
-#references-table_paginate {
+#references-table_paginate,
+#results-table_length,
+#results-table_filter,
+#results-table_info,
+#results-table_paginate {
   margin-bottom:1em;
 }
 
-#references-table {
+#references-table,
+#results-table {
   clear:both;
 }
 
