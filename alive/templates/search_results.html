@@ -20,8 +20,7 @@
       <thead>
         <tr>
           <th>Taxon</th>
-          <th>Scientific names</th>
-          <th>Vernacular names</th>
+          <th>Scientific or vernacular names</th>
         </tr>
       </thead>
       <tbody>
@@ -32,21 +31,21 @@
           </td>
           <td>
             {% if taxon.scientific %}
+            <h5>Scientific</h5>
             <ul>
                 {% for entry in taxon.scientific %}
                 <li>
-                <span class="quiet">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
+                <span class="label">{{ entry.rankName|capfirst }}</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameString }}, {{ entry.packageName }})
                 </li>
                 {% endfor %}
             </ul>
             {% endif %}
-          </td>
-          <td>
             {% if taxon.vernacular %}
+            <h5>Common</h5>
             <ul>
                 {% for entry in taxon.vernacular %}
                 <li>
-                <span class="quiet">Common</span> <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
+                <em>{{ entry.nameString }}</em> ({{ entry.fullNameStringLink }}, {{ entry.packageName }})
                 </li>
                 {% endfor %}
             </ul>
