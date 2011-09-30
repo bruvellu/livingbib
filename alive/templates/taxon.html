@@ -51,6 +51,10 @@
     </span>
     </p>
 
+    <div id="yearly-graph">
+      <span class="spark" title="Number of references per year from {{ data.min }} to {{ data.max }}"><small>Loading...</small></span>
+    </div>
+
     <div id="fetching-notice" class="alert-message warning fade in" data-alert="alert">
       <p><span id="yellow-loading"></span> <span id="being-fetched"></span> references are being fetched right now (it might take a while).</p>
     </div>
@@ -136,3 +140,13 @@
 {% endif %}
 
 {% endblock %}
+
+{% block bottom %}
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+      $(".spark").sparkline({{ data.values }}, {"width": "460px"});
+      });
+</script>
+{% endblock %}
+
+

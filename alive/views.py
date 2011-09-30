@@ -1,7 +1,7 @@
 from commands import *
 from models import *
 from forms import *
-from django.db.models import Count
+from django.db.models import Avg, Count, Max, Min
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
@@ -127,6 +127,9 @@ def taxon_page(request, slug):
     except:
         top_authors = []
 
+    # Number of publications per year.
+    data = get_yearly(articles)
+
     # Calls for reference fetching.
     fetching = False
     if not last_query:
@@ -155,6 +158,7 @@ def taxon_page(request, slug):
         'fetch_ratio': fetch_ratio,
         'form': form,
         'user_list': user_list,
+        'data': data,
         })
     return render_to_response('taxon.html', variables)
 
@@ -189,3 +193,42 @@ def get_ratio(articles_count, total_results):
     else:
         fetch_ratio = ''
     return fetch_ratio
+
+def get_yearly(articles):
+    '''Return number of publications per year.'''
+    # Counts per year.
+    yearly = articles.values('year').annotate(count=Count('year'))
+    # Latest year.
+    latest = articles.aggregate(Max('year'))
+    latest = latest['year__max']
+    # Earliest year.
+    earliest = articles.aggregate(Min('year'))
+    earliest = earliest['year__min']
+
+    # Full data dictionary.
+    years = {}
+
+    # Fill years with empty values.
+    for year in range(earliest, latest + 1):
+        years[year] = 0
+    # Get results and overwrite data dictionary.
+    for y in yearly:
+        years[y['year']] = y['count']
+
+    data = {
+            'values': [],
+            'labels': [],
+            'max': latest,
+            'min': earliest,
+            'mean': 0,
+            }
+
+    keys = years.keys()
+    keys.sort()
+
+    for k in keys:
+        data['values'].append(years[k])
+        data['labels'].append(k)
+
+    return data
+

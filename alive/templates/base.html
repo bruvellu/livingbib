@@ -25,12 +25,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Dajaxice and Dajax -->
-  {% comment %}
-  <script src="{{ STATIC_URL }}js/mylibs/dajaxice.core.js" type="text/javascript" charset="utf-8"></script>
-  {% endcomment %}
-  {% dajaxice_js_import %}
   <script src="{{ STATIC_URL }}js/mylibs/jquery.dajax.core.js" type="text/javascript" charset="utf-8"></script>
+  {% dajaxice_js_import %}
 
+  <!-- Sparkline -->
+  {% comment %}
+  <script src="{{ STATIC_URL }}js/mylibs/jquery.sparkline.min.js" type="text/javascript" charset="utf-8"></script>
+  {% endcomment %}
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
   <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
   <link rel="apple-touch-icon" href="{{ STATIC_URL }}apple-touch-icon.png">
@@ -47,6 +48,9 @@
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries -->
   <script src="{{ STATIC_URL }}js/libs/modernizr-1.7.min.js"></script>
   <script src="{{ STATIC_URL }}js/libs/respond.min.js"></script>
+
+  {% block header %}{% endblock %}
+
 </head>
 
 <body>
@@ -134,6 +138,8 @@
   <script src="{{ STATIC_URL }}js/plugins.js"></script>
   <script src="{{ STATIC_URL }}js/script.js"></script>
   <!-- end scripts-->
+
+  {% block bottom %}{% endblock %}
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>

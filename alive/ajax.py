@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from alive.models import Article, Query, Taxon, UserProfile
-from alive.views import get_ratio
+from alive.views import get_ratio, get_yearly
 from dajax.core import Dajax
 from dajaxice.decorators import dajaxice_register
 from django.template.defaultfilters import date
@@ -142,6 +142,11 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         row = '$("#references-table").dataTable().fnAddData(%s);' % columns
         dajax.script(row)
 
+    # Update annual graph.
+    taxon = Taxon.objects.get(id=taxon_id)
+    articles = taxon.articles.all()
+    data = get_yearly(articles)
+
     # Assign values to be updated.
     dajax.script('$("#fetching-status").fadeIn();')
     if duplicate:
@@ -150,7 +155,8 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         dajax.assign('#fetching-status', 'innerHTML', '<span class="label success">new</span> %s' % title)
     dajax.assign('#fetch-ratio', 'innerHTML', fetch_ratio)
     dajax.assign('#being-fetched', 'innerHTML', items)
-    dajax.script('Dajaxice.livingbib.alive.get_details(Dajax.process, {"uuids": "%s", "articles_count": "%d", "total_results": "%d", "rank": "%d", "new": "%d", "taxon_id": "%s"})' % (uuids, articles_count, total_results, rank, new, taxon_id))
+    dajax.script('$(".spark").sparkline(%s, {"width": "460px"});' % data['values'])
+    dajax.script('Dajaxice.livingbib.alive.get_details(Dajax.process, {"uuids": "%s", "articles_count": "%d", "total_results": "%d", "rank": "%d", "new": "%d", "taxon_id": "%s"});' % (uuids, articles_count, total_results, rank, new, taxon_id))
     return dajax.json()
 
 @dajaxice_register
