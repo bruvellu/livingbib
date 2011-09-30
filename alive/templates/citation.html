@@ -1,10 +1,15 @@
-<div class="grid_7 alpha">
+<div class="span10">
+  {% for taxon in article.article_taxa.all %}
+  <span class="label notice">{{ taxon.name }}</span>
+  {% endfor %}<br>
+
+  <p>
     <strong>{{ article.title }}</strong><br>
     {% for author in article.authors.all %}{{ author.forename }} {{ author.surname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
 
     {% if article.type.name == 'Journal Article' %}
     <em>{{ article.publication_outlet }}</em>, {{ article.volume }} {{ article.issue }}:{{ article.pages }}, {{ article.year }}<br><br>
-    
+
     {% else %}
         {% if article.type.name == 'Book Section' %}
             {{ article.chapter }}, {{ article.publisher }}, {{ article.pages }}, {{ article.year }}<br><br>
@@ -28,8 +33,10 @@
     {% if article.tags.all %}
     <strong>Tags:</strong> {% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
     {% endif %}
+    </p>
 </div>
-<div class="grid_2 omega align-center">
+
+<div class="span2">
     {{ article.type }}<br>
     {{ article.stats.readers }} readers<br>
     @<a href="{{ article.mendeley_url }}">mendeley</a><br>

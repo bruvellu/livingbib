@@ -27,15 +27,13 @@
   </div>
 
   <div class="span12" id="user-stream">
-    <ul>
+    <div class="row">
     {% for article in articles %}
-    <li>
-    {{ article.year }}
-    {{ article.title }}<br>
-    {{ article.article_taxa.all }}
-    </li>
+
+      {% include 'citation.html' %}
+
     {% endfor %}
-  </ul>
+    </div>
   </div>
 
 </div>
