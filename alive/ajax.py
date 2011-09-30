@@ -106,6 +106,8 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
     # Get details from Mendeley.
     try:
         article = Article.objects.get(uuid=uuid)
+        #TODO Only update some values. Preferably do this with commands.py?
+        #taxon.articles.add(article)
         #article.rank = rank
         #article.save()
         duplicate = True

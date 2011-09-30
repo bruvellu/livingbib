@@ -27,7 +27,15 @@
   </div>
 
   <div class="span12" id="user-stream">
-    [STREAM]
+    <ul>
+    {% for article in articles %}
+    <li>
+    {{ article.year }}
+    {{ article.title }}<br>
+    {{ article.article_taxa.all }}
+    </li>
+    {% endfor %}
+  </ul>
   </div>
 
 </div>

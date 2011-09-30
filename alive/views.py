@@ -2,6 +2,7 @@ from commands import *
 from models import *
 from forms import *
 from django.db.models import Avg, Count, Max, Min
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
@@ -156,11 +157,20 @@ def user_page(request, slug):
     # Get followed taxa.
     taxa = user_profile.taxa.all()
 
+    # Build complex query gathering all taxa.
+    qobj = Q()
+    for taxon in taxa:
+        qobj.add(Q(article_taxa=taxon), Q.OR)
+
+    # Articles from user taxa.
+    articles = Article.objects.filter(qobj).order_by('-year')
+
     variables = RequestContext(request, {
         'user_profile': user_profile,
         'username': username,
         'taxa': taxa,
         'form': form,
+        'articles': articles,
         })
     return render_to_response('user.html', variables)
 
