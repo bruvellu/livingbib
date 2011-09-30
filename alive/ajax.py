@@ -208,3 +208,4 @@ def search_taxon(request, query, redirect):
         dajax.redirect('/search/')
 
     return dajax.json()
+

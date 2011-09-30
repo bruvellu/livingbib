@@ -5,10 +5,7 @@
     <h3>
       {{ query|capfirst }}
       <span class="label {% if n == 0 %}important{% else %}success{% endif %}">{{ n }} result{{ n|pluralize }}</span>
-      <form class="ajax pull-right" id="clear-form" method="get" action=".">
-        <button class="btn danger" type="submit">Clear</button>
-        <input name="query" value="" type="hidden" id="">
-      </form>
+      <button class="btn danger pull-right" type="submit" onclick="clearResults()">Clear</button>
     </h3>
 
   </div>
