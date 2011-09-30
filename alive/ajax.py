@@ -10,12 +10,11 @@ from runalive import details, search
 
 
 @dajaxice_register
-def search_references(request, taxon_id):
+def search_references(request, taxon_id, items_per_page):
     '''Search references related to the taxon using Mendeley.'''
     dajax = Dajax()
 
-    #items = items_per_page + items_per_page
-    items = 50
+    items = items_per_page + items_per_page
 
     # Get taxon.
     taxon = Taxon.objects.get(id=taxon_id)
@@ -26,7 +25,11 @@ def search_references(request, taxon_id):
     # Create database query.
     if not results['total_results']:
         results['total_results'] = 0
-    query = Query(total_results=results['total_results'], taxon=taxon)
+    query = Query(
+            total_results=results['total_results'],
+            taxon=taxon,
+            items_per_page=items,
+            )
     query.save()
 
     # Define values.
@@ -164,7 +167,7 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
 
 @dajaxice_register
 def toggle_follow(request, taxon_id, user_id):
-    '''Search references related to the taxon using Mendeley.'''
+    '''Unfollow/follow request.'''
     dajax = Dajax()
 
     # Get user.
@@ -190,7 +193,7 @@ def toggle_follow(request, taxon_id, user_id):
 
 @dajaxice_register
 def search_taxon(request, query, redirect):
-    '''Search references related to the taxon using Mendeley.'''
+    '''Search taxon name using uBio.'''
     dajax = Dajax()
 
     # Clean query.

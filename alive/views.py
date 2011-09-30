@@ -21,7 +21,8 @@ def home_page(request):
     # Search form.
     form = SearchForm()
     taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
-    queries = Query.objects.select_related().order_by('-timestamp')
+    a_day_ago = datetime.now() - timedelta(1)
+    queries = Query.objects.select_related().filter(timestamp__gte=a_day_ago).order_by('-timestamp')
     variables = RequestContext(request, {
         'taxa': taxa,
         'form': form,
@@ -114,12 +115,10 @@ def taxon_page(request, slug):
     # Calls for reference fetching.
     fetching = False
     if not last_query:
-        #fetch_references(taxon.name) # New taxon.
         fetching = True
     else:
         now = datetime.now()
         if (now - last_query.timestamp) > timedelta(days=1):
-            #fetch_references(taxon.name) # Checks again for updates.
             fetching = True
 
     # Calculate the ratio of existent and fetched articles.
