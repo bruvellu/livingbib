@@ -11,6 +11,7 @@
     padding:0 8px;
     display:none;
 }
+
 #dark-loading {
     background:url("/static/images/loader-dark.gif") no-repeat scroll 0 0 transparent;
 }
@@ -24,6 +25,12 @@
 
 #yellow-loading {
     background:url("/static/images/loader-yellow.gif") no-repeat scroll 0 0 transparent;
+}
+
+#search-form {
+    margin:5px 0 0;
+    opacity:1
+    position:relative;
 }
 
 #fetching-notice, #fetching-status {

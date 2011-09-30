@@ -71,11 +71,13 @@
         <ul class="nav secondary-nav">
 
           <li>
-          <form {% if request.META.PATH_INFO == '/search/' %}class="ajax"{% endif %} id="search-form" method="get" action="/search/">
+
+          <div class="pull-right" id="search-form">
             <span id="dark-loading"></span>
-            <button class="btn" type="submit">Search</button>
-            {{ form.query }}
-          </form>
+            <button class="btn" name="query" type="submit" id="search-button" onclick="newSearch({% if request.META.PATH_INFO == '/search/' %}false{% else %}true{% endif %})">Search</button>
+            <input type="text" id="search_query" class="input-large" value="{{ query }}" placeholder="a scientific or common name" name="query">
+          </div>
+
           </li>
 
           <li class="dropdown" data-dropdown="dropdown" >

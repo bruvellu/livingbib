@@ -185,3 +185,22 @@ def toggle_follow(request, taxon_id, user_id):
         dajax.assign('#follow-button', 'value', 'Following')
 
     return dajax.json()
+
+@dajaxice_register
+def search_taxon(request, query, redirect):
+    '''Search references related to the taxon using Mendeley.'''
+    dajax = Dajax()
+
+    # Clean query.
+    query = query.strip()
+    query = query.lower()
+
+    if query:
+        if redirect:
+            dajax.redirect('/search/?query=%s' % query)
+        else:
+            dajax.assign('#search_query', 'value', 'MAGIC HAPPENS')
+    else:
+        dajax.redirect('/search/')
+
+    return dajax.json()

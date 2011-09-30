@@ -2,6 +2,10 @@
 
 */
 
+function newSearch(redirect) {
+  Dajaxice.livingbib.alive.search_taxon(Dajax.process, {'query': $("#search_query").val(), 'redirect': redirect})
+}
+
 function search_submit() {
     $("#search-results").fadeOut();
     var query = $("#id_query").val();
