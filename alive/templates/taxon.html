@@ -84,10 +84,16 @@
         {% for article in articles %}
         <tr>
           <td> {{ article.year }} </td>
-          <td> {{ article.title }} </td>
+          <td> <strong>{{ article.title }}</strong> </td>
           <td> {% for author in article.authors.all %}{{ author.surname }} {{ author.forename|first }}{% if not forloop.last %}, {% endif %}{% endfor %} </td>
           <td>
             <em>{{ article.publication_outlet }}</em>, {{ article.volume }}{% if article.issue %}({{ article.issue }}){% endif %}, {{ article.pages }}p{% if article.chapter %}, {{ article.chapter }}{% endif %}
+
+            {% if article.identifier_set.all %}
+            <br> - <br>
+            <small>{% for id in article.identifier_set.all %}{{ id.type }}:{% if id.get_absolute_url %}<a href="{{ id.get_absolute_url }}">{{ id.value }}</a>{% else %}{{ id.value }}{% endif %}{% if not forloop.last %} {% endif %}{% endfor %}</small>
+            {% endif %}
+
           </td>
           <td> {{ article.type }} </td>
           <td> {{ article.stats.readers }} </td>
