@@ -14,7 +14,7 @@ def search_references(request, taxon_id, items_per_page):
     '''Search references related to the taxon using Mendeley.'''
     dajax = Dajax()
 
-    items = int(items_per_page) + int(items_per_page)
+    items = int(items_per_page) * 2
 
     # Get taxon.
     taxon = Taxon.objects.get(id=taxon_id)
@@ -112,6 +112,7 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         #article.save()
         duplicate = True
     except:
+        #TODO Error handling in case Mendeley is offline or aborts the request.
         article = details(uuid, rank, taxon_id)
         if article:
             articles_count += 1
@@ -134,6 +135,8 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
         journal = journal + ', %sp' % article.pages
         if article.chapter:
             journal = journal + ', %s' % article.chapter
+
+        #TODO Include identifiers.
 
         fields = [
                 article.year,

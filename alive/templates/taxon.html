@@ -158,7 +158,7 @@
 
 {% if fetching %}
 <script type="text/javascript" charset="utf-8">
-  Dajaxice.livingbib.alive.search_references(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'items_per_page': '{% if not last_query %}0{% else %}{{ last_query.items_per_page }}{% endif %}'})
+  Dajaxice.livingbib.alive.search_references(Dajax.process, {'taxon_id': '{{ taxon.id }}', 'items_per_page': '{% if not last_query %}100{% else %}{{ last_query.items_per_page }}{% endif %}'})
 </script>
 {% endif %}
 
