@@ -120,7 +120,7 @@ def get_details(request, uuids, articles_count, total_results, rank, new, taxon_
 
     # Get article title.
     try:
-        title = article.title
+        title = '<strong>%s</strong>' % article.title
     except:
         title = 'Empty title...'
 
