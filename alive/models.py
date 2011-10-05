@@ -30,7 +30,8 @@ class Query(models.Model):
     items_per_page = models.PositiveIntegerField(_('fetched items'), default=50)
     timestamp = models.DateTimeField(_('datetime of query'), auto_now_add=True)
     taxon = models.ForeignKey('Taxon', verbose_name=_('taxon'))
-    delta = models.IntegerField(null=True, blank=True)
+    delta = models.IntegerField(_('diff for number of results'), null=True, blank=True)
+    factor = models.FloatField(_('delta per day ratio'), null=True, blank=True)
 
     def __unicode__(self):
         return '%s, %d results @ %s' % (self.taxon, self.total_results, 
@@ -45,7 +46,9 @@ class Taxon(models.Model):
     tsn = models.PositiveIntegerField(null=True, blank=True)
     aphia = models.PositiveIntegerField(null=True, blank=True)
     total_results = models.PositiveIntegerField(null=True, blank=True)
-    delta = models.IntegerField(null=True, blank=True)
+    timestamp = models.DateTimeField(_('datetime of query'), auto_now=True)
+    delta = models.IntegerField(_('diff for number of results'), null=True, blank=True)
+    factor = models.FloatField(_('delta per day ratio'), null=True, blank=True)
     parent = models.ForeignKey('self', blank=True, null=True, 
             related_name='children', verbose_name=_('parent'))
     queries = models.ManyToManyField(Query, null=True, blank=True, 

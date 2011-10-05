@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>
-  {{ taxon.name }}
+  {{ taxon.name }} {% include 'factor.html' with factor=taxon.factor %}
 
   {% if user.is_authenticated %}
 

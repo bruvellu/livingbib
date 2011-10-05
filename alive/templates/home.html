@@ -54,7 +54,7 @@
   </div>
 
   <div id="popular-taxa" class="span8">
-    <h2>Popular taxa</h2>
+    <h2>Trending taxa</h2>
 
     <table class="zebra-striped">
       <thead>
@@ -66,8 +66,8 @@
       <tbody>
         {% for taxon in taxa %}
         <tr>
-          <td><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a></td>
-          <td>{{ taxon.total_results }}</td>
+          <td><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a> {% include 'factor.html' with factor=taxon.factor %}</td>
+          <td title="{{ taxon.delta }} new articles added in {{ taxon.timestamp }}">{{ taxon.total_results }}</td>
         </tr>
         {% endfor %}
       </tbody>

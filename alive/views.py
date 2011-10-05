@@ -21,7 +21,7 @@ def home_page(request):
     '''Home page.'''
     # Search form.
     form = SearchForm()
-    taxa = Taxon.objects.select_related().order_by('-total_results')[:15]
+    taxa = Taxon.objects.select_related().order_by('-factor')[:15]
     a_day_ago = datetime.now() - timedelta(1)
     queries = Query.objects.select_related().filter(timestamp__gte=a_day_ago).order_by('-timestamp')
     variables = RequestContext(request, {
