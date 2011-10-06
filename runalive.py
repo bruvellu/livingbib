@@ -31,7 +31,7 @@ def fetch(taxon_name):
     '''Temporary dummy.'''
     pass
 
-def search(taxon_name, items=100):
+def search(taxon_name, items=50):
     '''Queries Mendeley database for a taxon name.'''
     # Search Mendeley.
     #log 'Searching for %s...' % taxon_name

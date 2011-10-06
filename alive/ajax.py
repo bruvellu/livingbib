@@ -14,7 +14,7 @@ def search_references(request, taxon_id, items_per_page):
     '''Search references related to the taxon using Mendeley.'''
     dajax = Dajax()
 
-    items = int(items_per_page) * 2
+    items = int(items_per_page) + int(items_per_page)
 
     # Get taxon.
     taxon = Taxon.objects.get(id=taxon_id)
