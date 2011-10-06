@@ -4,7 +4,7 @@
 
     <h3>
       {{ query|capfirst }}
-      <span class="label {% if n == 0 %}important{% else %}success{% endif %}">{{ n }} result{{ n|pluralize }}</span>
+      <span class="label middle {% if n == 0 %}important{% else %}success{% endif %}">{{ n }} result{{ n|pluralize }}</span>
       <button class="btn danger pull-right" type="submit" onclick="clearResults()">Clear</button>
     </h3>
 
