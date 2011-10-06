@@ -8,6 +8,9 @@
   <p>
   <em>Living Bibliography</em> aggregates scientific references by taxa.
   </p>
+  <p>
+  <span class="label middle warning">trending this week</span> {% for taxon in taxa|slice:':3' %}<a href="{{ taxon.get_absolute_url }}" title="Updated {{ taxon.name }} {{ taxon.timestamp|timesince }} ago">{{ taxon.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+  </p>
   {% comment %}
   <p><a class="btn primary large">Learn more &raquo;</a></p>
   {% endcomment %}
@@ -15,18 +18,6 @@
 
 <!-- Example row of columns -->
 <div class="row">
-
-  <div class="span8">
-    <h2>Step by step</h2>
-    <p>
-    <ol>
-        <li>Type a scientific or common name of a taxon you know.</li>
-        <li>Click on your taxon of choice.</li>
-        <li>Maybe wait a bit until we fetch the data.</li>
-        <li>Browse through references.</li>
-    </ol>
-    </p>
-  </div>
 
   <div id="site-description" class="span8">
     <h2>What it is</h2>
@@ -39,21 +30,46 @@
     <p>
     Code is <a href="https://github.com/nelas/livingbib">open source</a>. Feel free to join and share opinions about it.
     </p>
+
+    <h2>Step by step</h2>
+    <p>
+    <ol>
+        <li>Type a scientific or common name of a taxon you know.</li>
+        <li>Click on your taxon of choice.</li>
+        <li>Maybe wait a bit until we fetch the data.</li>
+        <li>Browse through references.</li>
+    </ol>
+    </p>
+
+    <h2>Caveats</h2>
+    <p>
+    <ul>
+        <li><del>Reference fetching will not be running continuously. If no references appear after 2 minutes, it might be unavailable at the moment. All queries are queued and references will be fetched when the daemon is running again. Sorry for the inconvenience, I will handle this ASAP.</del> Fixed :)</li>
+        <li>You will find duplicated references, badly formatted titles, misnamed authors, wrong journal information, etc. Since data is solely fetched from Mendeley the accuracy of information is on their hands.</li>
+        <li>Sometimes Mendeley API returns a "temporarily unavailable" error and fetching is truncated. Otherwise, results are limited to 50 references until the system becomes more stable.</li>
+    </ul>
+    </p>
+
+    <h2>Ideas</h2>
+    <p>
+    <ul>
+        <li>Data visualization with graphs and charts (popular organisms, trending taxa, active authors by taxa, etc).</li>
+        <li>Integration with other biological databases (pull data to enrich content, provide external links, etc).</li>
+        <li>Fetch articles from different sources.</li>
+    </ul>
+    </p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
+
   </div>
-</div>
 
-<div id="home-data" class="row">
-
-  <div id="latest-queries" class="span8">
+  <div id="home-data" class="span8">
     <h2>Latest updates</h2>
     <p>
     {% for query in queries %}
     <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}
     </p>
-  </div>
 
-  <div id="popular-taxa" class="span8">
     <h2>Trending taxa</h2>
 
     <table class="zebra-striped">
@@ -72,34 +88,11 @@
         {% endfor %}
       </tbody>
     </table>
+
   </div>
 
-</div>
 
-<div class="row">
 
-  <div class="span8" id="caveats">
-    <h2>Caveats</h2>
-    <p>
-    <ul>
-        <li><del>Reference fetching will not be running continuously. If no references appear after 2 minutes, it might be unavailable at the moment. All queries are queued and references will be fetched when the daemon is running again. Sorry for the inconvenience, I will handle this ASAP.</del> Fixed :)</li>
-        <li>You will find duplicated references, badly formatted titles, misnamed authors, wrong journal information, etc. Since data is solely fetched from Mendeley the accuracy of information is on their hands.</li>
-        <li>Sometimes Mendeley API returns a "temporarily unavailable" error and fetching is truncated. Otherwise, results are limited to 50 references until the system becomes more stable.</li>
-    </ul>
-    </p>
-  </div>
-
-  <div class="span8">
-    <h2>Ideas</h2>
-    <p>
-    <ul>
-        <li>Data visualization with graphs and charts (popular organisms, trending taxa, active authors by taxa, etc).</li>
-        <li>Integration with other biological databases (pull data to enrich content, provide external links, etc).</li>
-        <li>Fetch articles from different sources.</li>
-    </ul>
-    </p>
-    <p><a class="btn" href="#">View details &raquo;</a></p>
-  </div>
 </div>
 
 {% endblock %}

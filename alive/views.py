@@ -23,7 +23,7 @@ def home_page(request):
     form = SearchForm()
     taxa = Taxon.objects.select_related().order_by('-factor')[:15]
     a_day_ago = datetime.now() - timedelta(1)
-    queries = Query.objects.select_related().filter(timestamp__gte=a_day_ago).order_by('-timestamp')
+    queries = Query.objects.select_related().filter(timestamp__gte=a_day_ago).order_by('-timestamp')[:10]
     variables = RequestContext(request, {
         'taxa': taxa,
         'form': form,
