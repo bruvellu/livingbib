@@ -61,12 +61,6 @@
   </div>
 
   <div id="home-data" class="span8">
-    <h2>Latest updates</h2>
-    <p>
-    {% for query in queries %}
-    <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-    </p>
 
     <h2>Trending taxa</h2>
 
@@ -86,6 +80,13 @@
         {% endfor %}
       </tbody>
     </table>
+
+    <h2>Latest updates</h2>
+    <p>
+    {% for query in queries %}
+    <a href="{{ query.taxon.get_absolute_url }}" title="Updated {{ query.taxon.name }} {{ query.timestamp|timesince }} ago">{{ query.taxon.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
 
   </div>
 
