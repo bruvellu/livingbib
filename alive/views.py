@@ -63,6 +63,17 @@ def search_page(request):
     else:
         return render_to_response('search.html', variables)
 
+def taxa_page(request):
+    '''Taxa page.'''
+    # Search form.
+    form = SearchForm()
+    taxa = Taxon.objects.select_related().order_by('name')
+    variables = RequestContext(request, {
+        'taxa': taxa,
+        'form': form,
+        })
+    return render_to_response('taxa.html', variables)
+
 def taxon_page(request, slug):
     '''Taxon page.'''
     # Search form.

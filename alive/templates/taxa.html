@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table class="zebra-striped">
+  <thead>
+    <tr>
+      <th>Taxon</th>
+      <th>References</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for taxon in taxa %}
+    <tr>
+      <td><a href="{{ taxon.get_absolute_url }}">{{ taxon.name }}</a> {% include 'factor.html' with factor=taxon.factor %}</td>
+      <td title="{{ taxon.delta }} new articles added in {{ taxon.timestamp }}">{{ taxon.total_results }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
