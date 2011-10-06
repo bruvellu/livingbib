@@ -6,7 +6,7 @@
 <div class="hero-unit">
   <h1>Follow your favorite taxa!</h1>
   <p>
-  <em>Living Bibliography</em> aggregates scientific references by taxa.
+  <em>Living Bibliography</em> aggregates scientific articles from a taxon.
   </p>
   <p>
   <span class="label middle warning">trending this week</span> {% for taxon in taxa|slice:':3' %}<a href="{{ taxon.get_absolute_url }}" title="Updated {{ taxon.name }} {{ taxon.timestamp|timesince }} ago">{{ taxon.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
@@ -22,31 +22,30 @@
   <div id="site-description" class="span8">
     <h2>What it is</h2>
     <p>
-    <em>Living Bibliography</em> aggregates scientific references by taxa. Data is fetched on demand from <a href="http://www.mendeley.com/">Mendeley</a> database (via <a href="http://dev.mendeley.com/">API</a>) and taxon search is powered by <a href="http://www.ubio.org/">uBio</a> <a href="http://www.ubio.org/index.php?pagename=services_overview">NameBank web services</a>.
+    <em>Living Bibliography</em> allows you to browse scientific articles by taxa. Follow a taxon (or many) to get a stream of articles updates or simply subscribe to its RSS feed. Articles can be bookmarked or exported to your reference manager.
     </p>
     <p>
-    A prototype of this app was initially deployed during the <a href="http://www.mendeley.com/blog/developer-resources/hack4knowledge-mendeley-living-bibliographies-visual-search-and-more-h4k/">Hack4Knowledge</a> meeting. Since then, I made a few improvements to the code and got the basic functions working. It is still pretty raw, but you can now search for any taxon and retrieve the related references.
+    References are fetched on demand from <a href="http://www.mendeley.com/">Mendeley</a> database (via <a href="http://dev.mendeley.com/">API</a>) and taxon search is powered by <a href="http://www.ubio.org/">uBio</a> (via <a href="http://www.ubio.org/index.php?pagename=services_overview">NameBank web services</a>).
     </p>
     <p>
-    Code is <a href="https://github.com/nelas/livingbib">open source</a>. Feel free to join and share opinions about it.
+    A prototype of this app was initially deployed during the <a href="http://www.mendeley.com/blog/developer-resources/hack4knowledge-mendeley-living-bibliographies-visual-search-and-more-h4k/">Hack4Knowledge</a> meeting. Code is <a href="https://github.com/nelas/livingbib">open source</a>, feel free to join or report issues.
     </p>
 
     <h2>Step by step</h2>
     <p>
     <ol>
-        <li>Type a scientific or common name of a taxon you know.</li>
+        <li>Search for a scientific or common name.</li>
         <li>Click on your taxon of choice.</li>
         <li>Maybe wait a bit until we fetch the data.</li>
         <li>Browse through references.</li>
+        <li>Follow taxa and bookmark articles.</li>
     </ol>
     </p>
 
     <h2>Caveats</h2>
     <p>
     <ul>
-        <li><del>Reference fetching will not be running continuously. If no references appear after 2 minutes, it might be unavailable at the moment. All queries are queued and references will be fetched when the daemon is running again. Sorry for the inconvenience, I will handle this ASAP.</del> Fixed :)</li>
-        <li>You will find duplicated references, badly formatted titles, misnamed authors, wrong journal information, etc. Since data is solely fetched from Mendeley the accuracy of information is on their hands.</li>
-        <li>Sometimes Mendeley API returns a "temporarily unavailable" error and fetching is truncated. Otherwise, results are limited to 50 references until the system becomes more stable.</li>
+        <li>Expect duplicated references, badly formatted titles, misnamed authors, wrong journal information, etc. Data is straightly fetched from Mendeley and we are not checking the accuracy of information, yet.</li>
     </ul>
     </p>
 
@@ -58,7 +57,6 @@
         <li>Fetch articles from different sources.</li>
     </ul>
     </p>
-    <p><a class="btn" href="#">View details &raquo;</a></p>
 
   </div>
 
