@@ -1,10 +1,13 @@
-<div class="span10">
+<div class="span10 citation">
   {% for taxon in article.article_taxa.all %}
-  <span class="label notice">{{ taxon.name }}</span>
-  {% endfor %}<br>
+  <span class="label">{{ taxon.name }}</span>
+  {% endfor %}
+  {% if article.oa_journal %} <span class="label success">open access</span>{% endif %}
+  <br>
 
   <p>
-    <strong>{{ article.title }}</strong><br>
+  <strong>{{ article.title }}</strong><br>
+
     {% for author in article.authors.all %}{{ author.forename }} {{ author.surname }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
 
     {% if article.type.name == 'Journal Article' %}
@@ -36,10 +39,11 @@
     </p>
 </div>
 
-<div class="span2">
+<div class="span2 citation-tab">
     {{ article.type }}<br>
-    {{ article.stats.readers }} readers<br>
+    {{ article.stats.readers }} reader{{ article.stats.readers|pluralize }}<br>
     @<a href="{{ article.mendeley_url }}">mendeley</a><br>
+    {% comment %}
     rank {{ article.rank }}<br>
-    {% if article.oa_journal %}OA!{% endif %}
+    {% endcomment %}
 </div>
