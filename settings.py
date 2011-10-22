@@ -138,7 +138,7 @@ INSTALLED_APPS = (
     'django.contrib.markup',
     'django.contrib.syndication',
     'livingbib.alive',
-    'djutils',
+    #'djutils',
     'dajaxice',
     'dajax',
     'south',
