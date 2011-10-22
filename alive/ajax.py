@@ -46,7 +46,6 @@ def search_references(request, taxon_id, items_per_page):
     timestamp = query.timestamp
 
     # Assign values to be updated.
-    #TODO Format timestamp appropriately.
     dajax.assign('#last-updated', 'innerHTML', date(timestamp, DATETIME_FORMAT))
     dajax.assign('#fetch-ratio', 'innerHTML', fetch_ratio)
     dajax.assign('#total-results', 'innerHTML', total_results)
