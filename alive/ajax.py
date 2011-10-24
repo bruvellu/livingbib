@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from alive.models import Article, Query, Taxon, UserProfile
-from alive.views import get_ratio, get_yearly, clean_query, query_handler
+from models import Article, Query, Taxon, UserProfile
+from views import get_ratio, get_yearly, clean_query, query_handler
 from dajax.core import Dajax
 from dajaxice.decorators import dajaxice_register
 from django.template.defaultfilters import date
 from django.template.loader import render_to_string
 from django.conf.global_settings import DATETIME_FORMAT
-from runalive import details, search
+from livingbib.runalive import details, search
 
 
 @dajaxice_register
