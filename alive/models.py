@@ -274,6 +274,11 @@ class Identifier(models.Model):
         #elif self.type == 'issn':
         #    return 'http://www.google.com/search?tbm=bks&q=issn:%s' % self.value
 
+#XXX Why it does not work on signals.py?
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
 
 # Signals calls.
 signals.pre_save.connect(slug_pre_save, sender=Taxon)

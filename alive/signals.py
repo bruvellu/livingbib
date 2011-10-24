@@ -35,7 +35,3 @@ def update_results(signal, instance, sender, **kwargs):
     instance.taxon.factor = instance.factor
     instance.taxon.save()
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
