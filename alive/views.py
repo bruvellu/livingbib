@@ -130,7 +130,7 @@ def taxon_page(request, slug):
         fetching = True
     else:
         now = datetime.now()
-        if (now - last_query.timestamp) > timedelta(days=1):
+        if (now - last_query.timestamp) > timedelta(minutes=1):
             fetching = True
 
     # Calculate the ratio of existent and fetched articles.
