@@ -224,6 +224,7 @@ class Article(models.Model):
     website = models.CharField(_('website'), max_length=256)
     mendeley_url = models.CharField(_('mendeley_url'), max_length=256)
     public_file_hash = models.CharField(_('public_file_hash'), max_length=256)
+    file_url = models.CharField(_('file_url'), max_length=256, default='')
     # Bool
     oa_journal = models.BooleanField(_('oa_jornal'), default=False)
     # ForeignKey
